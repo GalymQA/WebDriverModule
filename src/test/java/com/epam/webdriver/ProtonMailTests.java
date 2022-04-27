@@ -7,11 +7,13 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import pageobjects.HomePage;
+import pageobjects.LogInPage;
 
 import java.time.Duration;
 import java.util.Properties;
 
-public class ProtonMailTest {
+public class ProtonMailTests {
 
     private WebDriver driver;
     private String urlProtonMail;
@@ -31,10 +33,19 @@ public class ProtonMailTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
 
-    @Test(enabled = true, description = "Smoke test for proton mail")
-    public void titleOfProtonMail() {
+    @Test(enabled = false, description = "Smoke test for proton mail")
+    public void titleOfProtonMailTest() {
         driver.get(urlProtonMail);
         Assert.assertEquals(driver.getTitle(), "Secure email: ProtonMail is free encrypted email.");
+    }
+
+    @Test(enabled = true, description = "Log in to Proton email service")
+    public void logInToProtonMail() throws InterruptedException {
+        driver.get(urlProtonMail);
+        HomePage homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.isLoginButtonDisplayed());
+        LogInPage loginPage = homePage.clickLoginButton();
+        Thread.sleep(10000);
     }
 
     @AfterMethod
