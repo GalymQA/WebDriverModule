@@ -44,7 +44,13 @@ public class ProtonMailTests {
         driver.get(urlProtonMail);
         HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
+        Thread.sleep(5000);
         LogInPage loginPage = homePage.clickLoginButton();
+        Thread.sleep(5000);
+//        Assert.assertTrue(loginPage.isStayCheckedIn());
+        loginPage.enterUsername("DDD");
+        loginPage.enterPassword("9995555");
+        loginPage.submitLoginForm();
         Thread.sleep(10000);
     }
 
