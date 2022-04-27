@@ -4,6 +4,8 @@ import com.epam.utilities.PropertyLoader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -11,25 +13,35 @@ import java.util.Properties;
 
 public class ProtonMailTest {
 
-    final static String PATH_TO_CONFIG_PROPERTIES = "/config.properties";
+    private WebDriver driver;
+    private String urlProtonMail;
+    private String webDriverName;
+    private String locationOfWebDriver;
 
-    public WebDriver driver;
-
-    @Test
-    public void verifyTitleOfHomePage() throws InterruptedException {
+    @BeforeMethod
+    public void setUp() {
         Properties appProperties = new Properties();
-        PropertyLoader.loadProperties(appProperties, PATH_TO_CONFIG_PROPERTIES);
-        final String webDriverName = appProperties.getProperty("WEB_DRIVER_NAME");
-        final String locationOfWebDriver = appProperties.getProperty("LOCATION_OF_WEB_DRIVER");
-        String urlProtonMail = appProperties.getProperty("URL_PROTON_MAIL");
-        System.out.println("URL proton:" + urlProtonMail);
+        PropertyLoader.loadProperties(appProperties);
+        webDriverName = appProperties.getProperty("WEB_DRIVER_NAME");
+        locationOfWebDriver = appProperties.getProperty("LOCATION_OF_WEB_DRIVER");
+        urlProtonMail = appProperties.getProperty("URL_PROTON_MAIL");
         System.setProperty(webDriverName, locationOfWebDriver);
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+    }
+
+    @Test(enabled = true, description = "Smoke test for proton mail")
+    public void titleOfProtonMail() {
         driver.get(urlProtonMail);
-        System.out.println(driver.getTitle());
-        Thread.sleep(1000);
+        Assert.assertEquals(driver.getTitle(), "Secure email: ProtonMail is free encrypted email.");
+    }
+
+    @AfterMethod
+    public void teardown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 
 }
