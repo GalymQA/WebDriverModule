@@ -1,9 +1,7 @@
 package com.epam.webdriver;
 
 import com.epam.utilities.PropertyLoader;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -14,9 +12,7 @@ import pageobjects.LogInCaptchaPage;
 import pageobjects.LogInPage;
 
 import java.time.Duration;
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.Set;
 
 public class ProtonMailTests {
 
@@ -51,24 +47,22 @@ public class ProtonMailTests {
     }
 
     @Test(enabled = true, description = "Log in to Proton email service")
-    public void logInToProtonMail() throws InterruptedException {
+    public void validLogInToProtonMail() throws InterruptedException {
         driver.get(urlProtonMail);
         HomePage homePage = new HomePage(driver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
-        Thread.sleep(waitTime);
         LogInPage loginPage = homePage.clickLoginButton(driver);
         Thread.sleep(waitTime);
         Assert.assertTrue(loginPage.isStayCheckedIn());
         loginPage.enterUsername(usernameForProtonMail);
-        Thread.sleep(waitTime);
         loginPage.enterPassword(passwordForProtonMail);
-        Thread.sleep(waitTime);
         loginPage.submitLoginForm();
         Thread.sleep(waitTime);
         LogInCaptchaPage logInCaptchaPage = new LogInCaptchaPage(driver);
-        logInCaptchaPage.passCaptcha();
+        logInCaptchaPage.passCaptcha(driver.getWindowHandles().size());
         Thread.sleep(waitTime);
         System.out.println("Done");
+
     }
 
     @AfterMethod

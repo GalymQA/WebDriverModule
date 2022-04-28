@@ -13,7 +13,6 @@ public class LogInPage extends PageObject {
     private final By staySignedInLocator = By.cssSelector("input[id='staySignedIn']");
     private final By submitButtonLocator = By.cssSelector("form[name='loginForm'] button[type='submit']");
 
-
     @FindBy(css = "input[id='username']")
     private WebElement usernameInput;
 
