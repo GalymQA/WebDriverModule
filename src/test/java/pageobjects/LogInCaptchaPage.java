@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class LogInCaptchaPage extends PageObject {
 
-    protected WebDriver driver;
+    protected WebDriver webDriver;
 
     private final By primaryIframeLocator = By.cssSelector("div.modal-two iframe");
     private final By secondaryIframeLocator = By.cssSelector("iframe");
@@ -22,14 +22,14 @@ public class LogInCaptchaPage extends PageObject {
     @FindBy(id = "checkbox")
     private WebElement checkboxOfCaptcha;
 
-    public LogInCaptchaPage(WebDriver driver) {
-        super(driver);
+    public LogInCaptchaPage(WebDriver webDriver) {
+        super(webDriver);
     }
 
-    public void passCaptcha(int windowHandlesSize) {
-        if (windowHandlesSize > 1) {
-            driver.switchTo().frame(primaryIframe);
-            driver.switchTo().frame(secondaryIframe);
+    public void passCaptcha(WebDriver webDriver) {
+        if (webDriver.getWindowHandles().size() > 1) {
+            this.webDriver.switchTo().frame(primaryIframe);
+            this.webDriver.switchTo().frame(secondaryIframe);
             checkboxOfCaptcha.click();
         }
     }

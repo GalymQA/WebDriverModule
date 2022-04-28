@@ -7,7 +7,7 @@ import org.openqa.selenium.support.FindBy;
 
 public class LogInPage extends PageObject {
 
-    protected WebDriver driver;
+    protected WebDriver webDriver;
     private final By usernameInputLocator = By.cssSelector("input[id='username']");
     private final By passwordInputLocator = By.cssSelector("input[id='password']");
     private final By staySignedInLocator = By.cssSelector("input[id='staySignedIn']");
@@ -25,8 +25,8 @@ public class LogInPage extends PageObject {
     @FindBy(css = "form[name='loginForm'] button[type='submit']")
     private WebElement submitButton;
 
-    public LogInPage(WebDriver driver) {
-        super(driver);
+    public LogInPage(WebDriver webDriver) {
+        super(webDriver);
     }
 
     public void enterUsername(String username) {
@@ -39,7 +39,7 @@ public class LogInPage extends PageObject {
         passwordInput.sendKeys(password);
     }
 
-    public boolean isStayCheckedIn() {
+    public boolean isStayCheckedInSelected() {
         return staySignedInInput.isSelected();
     }
 

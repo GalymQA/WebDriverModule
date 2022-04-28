@@ -7,16 +7,16 @@ import org.openqa.selenium.support.FindBy;
 
 public class HomePage extends PageObject {
 
-    protected WebDriver driver;
+    protected WebDriver webDriver;
 
     private final By loginButtonLocator = By.xpath("//a[contains(text(),'LOG IN')]");
 
-    public HomePage(WebDriver driver) {
-        super(driver);
-    }
-
     @FindBy(xpath = "//a[contains(text(),'LOG IN')]")
     private WebElement loginButton;
+
+    public HomePage(WebDriver webDriver) {
+        super(webDriver);
+    }
 
     public boolean isLoginButtonDisplayed() {
         return loginButton.isDisplayed();
