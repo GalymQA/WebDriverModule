@@ -22,36 +22,9 @@ public class HomePage extends PageObject {
         return loginButton.isDisplayed();
     }
 
-    public LogInPage clickLoginButton() {
+    public LogInPage clickLoginButton(WebDriver driver) {
         loginButton.click();
         return new LogInPage(driver);
     }
 
-//
-//
-//
-//    public boolean isInitialized() {
-//        return firstName.isDisplayed();
-//    }
-//
-//    public void enterName(String firstName, String lastName){
-//        this.firstName.clear();
-//        this.firstName.sendKeys(firstName);
-//
-//        this.lastName.clear();
-//        this.lastName.sendKeys(lastName);
-//    }
-//
-//    public void enterAddress(String address, String zipCode){
-//        this.address.clear();
-//        this.address.sendKeys(address);
-//
-//        this.zipCode.clear();
-//        this.zipCode.sendKeys(zipCode);
-//    }
-//
-//    public ReceiptPage submit(){
-//        submitButton.click();
-//        return new ReceiptPage(driver);
-//    }
 }
