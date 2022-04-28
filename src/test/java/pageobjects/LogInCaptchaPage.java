@@ -24,13 +24,15 @@ public class LogInCaptchaPage extends PageObject {
 
     public LogInCaptchaPage(WebDriver webDriver) {
         super(webDriver);
+        this.webDriver = webDriver;
     }
 
-    public void passCaptcha(WebDriver webDriver) {
+    public void passCaptcha(WebDriver webDriver, int waitTime) throws InterruptedException {
         if (webDriver.getWindowHandles().size() > 1) {
             this.webDriver.switchTo().frame(primaryIframe);
             this.webDriver.switchTo().frame(secondaryIframe);
             checkboxOfCaptcha.click();
+            Thread.sleep(waitTime);
         }
     }
 

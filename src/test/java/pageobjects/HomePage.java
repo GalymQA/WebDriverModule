@@ -16,6 +16,7 @@ public class HomePage extends PageObject {
 
     public HomePage(WebDriver webDriver) {
         super(webDriver);
+        this.webDriver = webDriver;
     }
 
     public boolean isLoginButtonDisplayed() {

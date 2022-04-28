@@ -18,6 +18,7 @@ import java.util.Properties;
 public class ProtonMailTests {
 
     private WebDriver webDriver;
+    Properties appProperties;
     private String urlProtonMail;
     private String webDriverName;
     private String locationOfWebDriver;
@@ -27,18 +28,18 @@ public class ProtonMailTests {
 
     @BeforeMethod
     public void setUp() {
-        Properties appProperties = new Properties();
+        appProperties = new Properties();
         PropertyLoader.loadProperties(appProperties);
         webDriverName = appProperties.getProperty("WEB_DRIVER_NAME");
         locationOfWebDriver = appProperties.getProperty("LOCATION_OF_WEB_DRIVER");
         urlProtonMail = appProperties.getProperty("URL_PROTON_MAIL");
         waitTime = Integer.parseInt(appProperties.getProperty("WAIT_TIME"));
-        usernameForProtonMail = appProperties.getProperty("USERNAME_FOR_PROTON_MAIL");
-        passwordForProtonMail = appProperties.getProperty("PASSWORD_FOR_PROTON_MAIL");
+        usernameForProtonMail = appProperties.getProperty("VALID_USERNAME_FOR_PROTON_MAIL");
+        passwordForProtonMail = appProperties.getProperty("VALID_PASSWORD_FOR_PROTON_MAIL");
         System.setProperty(webDriverName, locationOfWebDriver);
         webDriver = new ChromeDriver();
         webDriver.manage().window().maximize();
-        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
     }
 
     @Test(enabled = false, description = "Smoke test for proton mail")
@@ -47,7 +48,7 @@ public class ProtonMailTests {
         Assert.assertEquals(webDriver.getTitle(), "Secure email: ProtonMail is free encrypted email.");
     }
 
-    @Test(enabled = true, description = "Log in with valid username and password to Proton email service")
+    @Test(enabled = false, description = "Log in with valid username and password to Proton email service")
     public void validLogInToProtonMail() throws InterruptedException {
         webDriver.get(urlProtonMail);
         HomePage homePage = new HomePage(webDriver);
@@ -57,10 +58,21 @@ public class ProtonMailTests {
         loginPage.enterUsername(usernameForProtonMail);
         loginPage.enterPassword(passwordForProtonMail);
         loginPage.submitLoginForm();
-        LogInCaptchaPage logInCaptchaPage = new LogInCaptchaPage(webDriver);
-        logInCaptchaPage.passCaptcha(webDriver);
         InboxPage inboxPage = new InboxPage(webDriver);
         Assert.assertTrue(inboxPage.isNewMessageButtonDisplayed());
+    }
+
+    @Test(enabled = true, description = "Log in with invalid username and password to Proton email service")
+    public void invalidLogInToProtonMail() throws InterruptedException {
+        webDriver.get(urlProtonMail);
+        HomePage homePage = new HomePage(webDriver);
+        Assert.assertTrue(homePage.isLoginButtonDisplayed());
+        LogInPage loginPage = homePage.clickLoginButton(webDriver);
+        Assert.assertTrue(loginPage.isStayCheckedInSelected());
+        loginPage.enterUsername(appProperties.getProperty("INVALID_USERNAME_FOR_PROTON_MAIL"));
+        loginPage.enterPassword(appProperties.getProperty("VALID_PASSWORD_FOR_PROTON_MAIL"));
+        loginPage.submitLoginForm();
+        Assert.assertTrue(loginPage.isInvalidCredentialsMessageDisplayed());
     }
 
     @AfterMethod

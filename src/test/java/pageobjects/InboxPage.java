@@ -8,13 +8,14 @@ import org.openqa.selenium.support.FindBy;
 public class InboxPage extends PageObject {
 
     protected WebDriver webDriver;
-    private final By newMessageButtonLocator = By.xpath("//button[contains(text(),'New message')]") ;
+    private final By newMessageButtonLocator = By.xpath("//button[contains(text(),'New message')]");
 
     @FindBy(xpath = "//button[contains(text(),'New message')]")
     private WebElement newMessageButton;
 
     public InboxPage(WebDriver webDriver) {
         super(webDriver);
+        this.webDriver = webDriver;
     }
 
     public boolean isNewMessageButtonDisplayed() {
