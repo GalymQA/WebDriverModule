@@ -20,4 +20,11 @@ public class DataProviderForProtonMail {
         };
     }
 
+    @DataProvider(name = "empty-credentials")
+    public static Object[][] provideEmptyCredentials() {
+        return new Object[][]{
+                {"", ""}
+        };
+    }
+
 }

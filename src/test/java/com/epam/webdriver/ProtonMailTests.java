@@ -7,7 +7,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import pageobjects.HomePage;
 import pageobjects.InboxPage;
@@ -56,7 +55,7 @@ public class ProtonMailTests {
         Assert.assertTrue(inboxPage.isNewMessageButtonDisplayed());
     }
 
-    @Test(enabled = true,
+    @Test(enabled = false,
             description = "Log in with invalid username and password to Proton email service",
             dataProvider = "invalid-credentials",
             dataProviderClass = DataProviderForProtonMail.class)
@@ -70,6 +69,24 @@ public class ProtonMailTests {
         loginPage.enterPassword(password);
         loginPage.submitLoginForm();
         Assert.assertTrue(loginPage.isInvalidCredentialsMessageDisplayed());
+        Assert.assertEquals(webDriver.getCurrentUrl(), "https://account.protonmail.com/login");
+    }
+
+    @Test(enabled = true,
+            description = "Log in with empty credentials to Proton email service",
+            dataProvider = "empty-credentials",
+            dataProviderClass = DataProviderForProtonMail.class)
+    public void loginWithEmptyCredentialsToProtonMail(String username, String password) {
+        webDriver.get("https://protonmail.com/");
+        HomePage homePage = new HomePage(webDriver);
+        Assert.assertTrue(homePage.isLoginButtonDisplayed());
+        LogInPage loginPage = homePage.clickLoginButton(webDriver);
+        Assert.assertTrue(loginPage.isStayCheckedInSelected());
+        loginPage.enterUsername(username);
+        loginPage.enterPassword(password);
+        loginPage.submitLoginForm();
+        Assert.assertTrue(loginPage.isEmptyUsernameMessageDisplayed());
+        Assert.assertTrue(loginPage.isEmptyPasswordMessageDisplayed());
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://account.protonmail.com/login");
     }
 
