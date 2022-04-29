@@ -11,17 +11,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Properties;
 
-public class HomePageProton extends PageObject {
+public class InboxPageYahoo extends PageObject {
 
     protected WebDriver webDriver;
     int durationForExpectedConditions;
 
-    private final By loginButtonLocator = By.xpath("//a[contains(text(),'LOG IN')]");
+    private final By composeEmailButtonLocator = By.cssSelector("a[data-test-id='compose-button']");
 
-    @FindBy(xpath = "//a[contains(text(),'LOG IN')]")
-    private WebElement loginButton;
+    @FindBy(css = "a[data-test-id='compose-button']")
+    private WebElement composeEmailButton;
 
-    public HomePageProton(WebDriver webDriver) {
+    public InboxPageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
         Properties appProperties = new Properties();
@@ -29,14 +29,9 @@ public class HomePageProton extends PageObject {
         durationForExpectedConditions = Integer.parseInt(appProperties.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
     }
 
-    public boolean isLoginButtonDisplayed() {
+    public boolean isComposeEmailButtonDisplayed() {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(loginButton)).isDisplayed();
-    }
-
-    public LogInPageProton clickLoginButton(WebDriver driver) {
-        loginButton.click();
-        return new LogInPageProton(driver);
+        return wait.until(ExpectedConditions.visibilityOf(composeEmailButton)).isDisplayed();
     }
 
 }

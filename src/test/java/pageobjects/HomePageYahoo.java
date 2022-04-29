@@ -11,17 +11,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Properties;
 
-public class HomePageProton extends PageObject {
+public class HomePageYahoo extends PageObject {
 
     protected WebDriver webDriver;
     int durationForExpectedConditions;
 
-    private final By loginButtonLocator = By.xpath("//a[contains(text(),'LOG IN')]");
+    private final By signInButtonLocator = By.xpath("(//a[contains(text(), 'Sign in')]) [1]");
 
-    @FindBy(xpath = "//a[contains(text(),'LOG IN')]")
-    private WebElement loginButton;
+    @FindBy(xpath = "(//a[contains(text(), 'Sign in')]) [1]")
+    private WebElement signInButton;
 
-    public HomePageProton(WebDriver webDriver) {
+    public HomePageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
         Properties appProperties = new Properties();
@@ -29,14 +29,14 @@ public class HomePageProton extends PageObject {
         durationForExpectedConditions = Integer.parseInt(appProperties.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
     }
 
-    public boolean isLoginButtonDisplayed() {
+    public boolean isSignInButtonDisplayed() {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(loginButton)).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOf(signInButton)).isDisplayed();
     }
 
-    public LogInPageProton clickLoginButton(WebDriver driver) {
-        loginButton.click();
-        return new LogInPageProton(driver);
+    public LogInPageYahoo clickSignInButton(WebDriver driver) {
+        signInButton.click();
+        return new LogInPageYahoo(webDriver);
     }
 
 }

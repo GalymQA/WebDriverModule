@@ -8,9 +8,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pageobjects.HomePageProton;
-import pageobjects.InboxPageProton;
-import pageobjects.LogInPageProton;
+import pageobjects.*;
 
 import java.time.Duration;
 import java.util.Properties;
@@ -47,7 +45,7 @@ public class EmailDeliveryTests {
                                       String usernameYahoo,
                                       String passwordYahoo,
                                       String emailSubjectText,
-                                      String emailText) {
+                                      String emailText) throws InterruptedException {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePageProton = new HomePageProton(webDriver);
         Assert.assertTrue(homePageProton.isLoginButtonDisplayed());
@@ -60,6 +58,26 @@ public class EmailDeliveryTests {
         Assert.assertTrue(inboxPageProton.isNewMessageButtonDisplayed());
         inboxPageProton.sendEmailTo(usernameYahoo, emailSubjectText, emailText);
         Assert.assertTrue(inboxPageProton.isSentEmailMessageDisplayed());
+
+        // TODO: Have to add the body of a message
+
+        webDriver.close();
+        webDriver.manage().deleteAllCookies();
+        webDriver.get("https://yahoo.com/");
+        HomePageYahoo homePageYahoo = new HomePageYahoo(webDriver);
+        Assert.assertTrue(homePageYahoo.isSignInButtonDisplayed());
+        LogInPageYahoo logInPageYahoo = homePageYahoo.clickSignInButton(webDriver);
+        Assert.assertTrue(logInPageYahoo.isLoginInputDisplayed());
+        logInPageYahoo.enterUsername(usernameYahoo);
+        logInPageYahoo.clickSubmitLoginButton();
+        Assert.assertTrue(logInPageYahoo.isPasswordInputDisplayed());
+        logInPageYahoo.enterPassword(passwordYahoo);
+        logInPageYahoo.clickSubmitPasswordButton();
+        Assert.assertTrue(logInPageYahoo.isMailLinkDisplayed());
+        InboxPageYahoo inboxPageYahoo = logInPageYahoo.clickMailLink(webDriver);
+        Assert.assertTrue(inboxPageYahoo.isComposeEmailButtonDisplayed());
+
+        Thread.sleep(10000);
 
     }
 
