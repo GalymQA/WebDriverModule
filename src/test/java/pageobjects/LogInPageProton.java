@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.time.Duration;
 import java.util.Properties;
 
-public class LogInPage extends PageObject {
+public class LogInPageProton extends PageObject {
 
     protected WebDriver webDriver;
     int durationForExpectedConditions;
@@ -44,7 +44,7 @@ public class LogInPage extends PageObject {
     @FindBy(xpath = "//label[@for='password'] //span[contains(text(), 'This field is required')]")
     private WebElement emptyPasswordMessage;
 
-    public LogInPage(WebDriver webDriver) {
+    public LogInPageProton(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
         Properties appProperties = new Properties();

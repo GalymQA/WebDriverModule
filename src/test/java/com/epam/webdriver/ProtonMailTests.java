@@ -8,9 +8,9 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pageobjects.HomePage;
-import pageobjects.InboxPage;
-import pageobjects.LogInPage;
+import pageobjects.HomePageProton;
+import pageobjects.InboxPageProton;
+import pageobjects.LogInPageProton;
 
 import java.time.Duration;
 import java.util.Properties;
@@ -44,14 +44,14 @@ public class ProtonMailTests {
             dataProviderClass = DataProviderForProtonMail.class)
     public void validLogInToProtonMail(String username, String password) {
         webDriver.get("https://protonmail.com/");
-        HomePage homePage = new HomePage(webDriver);
+        HomePageProton homePage = new HomePageProton(webDriver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
-        LogInPage loginPage = homePage.clickLoginButton(webDriver);
+        LogInPageProton loginPage = homePage.clickLoginButton(webDriver);
         Assert.assertTrue(loginPage.isStayCheckedInSelected());
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
         loginPage.submitLoginForm();
-        InboxPage inboxPage = new InboxPage(webDriver);
+        InboxPageProton inboxPage = new InboxPageProton(webDriver);
         Assert.assertTrue(inboxPage.isNewMessageButtonDisplayed());
     }
 
@@ -61,9 +61,9 @@ public class ProtonMailTests {
             dataProviderClass = DataProviderForProtonMail.class)
     public void invalidLogInToProtonMail(String username, String password) {
         webDriver.get("https://protonmail.com/");
-        HomePage homePage = new HomePage(webDriver);
+        HomePageProton homePage = new HomePageProton(webDriver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
-        LogInPage loginPage = homePage.clickLoginButton(webDriver);
+        LogInPageProton loginPage = homePage.clickLoginButton(webDriver);
         Assert.assertTrue(loginPage.isStayCheckedInSelected());
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
@@ -72,15 +72,15 @@ public class ProtonMailTests {
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://account.protonmail.com/login");
     }
 
-    @Test(enabled = true,
+    @Test(enabled = false,
             description = "Log in with empty credentials to Proton email service",
             dataProvider = "empty-credentials",
             dataProviderClass = DataProviderForProtonMail.class)
     public void loginWithEmptyCredentialsToProtonMail(String username, String password) {
         webDriver.get("https://protonmail.com/");
-        HomePage homePage = new HomePage(webDriver);
+        HomePageProton homePage = new HomePageProton(webDriver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
-        LogInPage loginPage = homePage.clickLoginButton(webDriver);
+        LogInPageProton loginPage = homePage.clickLoginButton(webDriver);
         Assert.assertTrue(loginPage.isStayCheckedInSelected());
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);

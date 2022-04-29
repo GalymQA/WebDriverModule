@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class HomePage extends PageObject {
+public class HomePageProton extends PageObject {
 
     protected WebDriver webDriver;
 
@@ -14,7 +14,7 @@ public class HomePage extends PageObject {
     @FindBy(xpath = "//a[contains(text(),'LOG IN')]")
     private WebElement loginButton;
 
-    public HomePage(WebDriver webDriver) {
+    public HomePageProton(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
     }
@@ -23,9 +23,9 @@ public class HomePage extends PageObject {
         return loginButton.isDisplayed();
     }
 
-    public LogInPage clickLoginButton(WebDriver driver) {
+    public LogInPageProton clickLoginButton(WebDriver driver) {
         loginButton.click();
-        return new LogInPage(driver);
+        return new LogInPageProton(driver);
     }
 
 }
