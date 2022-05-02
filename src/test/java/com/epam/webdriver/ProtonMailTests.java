@@ -8,9 +8,9 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pageobjects.HomePageProton;
-import pageobjects.InboxPageProton;
-import pageobjects.LogInPageProton;
+import pageobjects.proton.HomePageProton;
+import pageobjects.proton.InboxPageProton;
+import pageobjects.proton.LogInPageProton;
 
 import java.time.Duration;
 import java.util.Properties;

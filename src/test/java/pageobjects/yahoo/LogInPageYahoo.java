@@ -1,4 +1,4 @@
-package pageobjects;
+package pageobjects.yahoo;
 
 import com.epam.utilities.PropertyLoader;
 import org.openqa.selenium.By;
@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageobjects.PageObject;
+import pageobjects.yahoo.InboxPageYahoo;
 
 import java.time.Duration;
 import java.util.Properties;
