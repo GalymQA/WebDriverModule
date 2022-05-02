@@ -22,7 +22,7 @@ public class EmailDeliveryTests {
 
     private WebDriver webDriver;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         Properties appProperties = new Properties();
         PropertyLoader.loadProperties(appProperties);
@@ -35,8 +35,10 @@ public class EmailDeliveryTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @Test(enabled = false, description = "Smoke test for yahoo mail")
-    public void titleOfYahooMailTest() {
+    @Test(enabled = true,
+            description = "Smoke test for yahoo mail",
+            groups = {"smoketests"})
+    public void verifyTitleOfYahooMail() {
         webDriver.get("https://www.yahoo.com/");
         Assert.assertEquals(webDriver.getTitle(),
                 "Yahoo | Mail, Weather, Search, Politics, News, Finance, Sports & Videos");
@@ -45,7 +47,8 @@ public class EmailDeliveryTests {
     @Test(enabled = true,
             description = "Verify delivery of email from ProtonMail to YahooMail",
             dataProvider = "valid-credentials-for-email-delivery",
-            dataProviderClass = DataProviderForEmailDelivery.class)
+            dataProviderClass = DataProviderForEmailDelivery.class,
+            groups = {"tasktests"})
     public void verifyDeliveryOfEmail(String usernameProton,
                                       String passwordProton,
                                       String usernameYahoo,
@@ -90,7 +93,7 @@ public class EmailDeliveryTests {
         Assert.assertTrue(inboxPageYahoo.verifyBodyOfLatestEmail(emailBodyText));
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void teardown() {
         if (webDriver != null) {
             webDriver.quit();

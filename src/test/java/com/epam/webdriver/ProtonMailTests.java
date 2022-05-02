@@ -19,7 +19,7 @@ public class ProtonMailTests {
 
     private WebDriver webDriver;
 
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setUp() {
         Properties appProperties = new Properties();
         PropertyLoader.loadProperties(appProperties);
@@ -32,16 +32,19 @@ public class ProtonMailTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @Test(enabled = false, description = "Smoke test for proton mail")
-    public void titleOfProtonMailTest() {
+    @Test(enabled = true,
+            description = "Smoke test for proton mail",
+            groups = {"smoketests"})
+    public void verifyTitleOfProtonMail() {
         webDriver.get("https://protonmail.com/");
         Assert.assertEquals(webDriver.getTitle(), "Secure email: ProtonMail is free encrypted email.");
     }
 
-    @Test(enabled = false,
+    @Test(enabled = true,
             description = "Log in with valid username and password to Proton email service",
             dataProvider = "valid-credentials",
-            dataProviderClass = DataProviderForProtonMail.class)
+            dataProviderClass = DataProviderForProtonMail.class,
+            groups = {"tasktests"})
     public void validLogInToProtonMail(String username, String password) {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePage = new HomePageProton(webDriver);
@@ -55,10 +58,11 @@ public class ProtonMailTests {
         Assert.assertTrue(inboxPage.isNewMessageButtonDisplayed());
     }
 
-    @Test(enabled = false,
+    @Test(enabled = true,
             description = "Log in with invalid username and password to Proton email service",
             dataProvider = "invalid-credentials",
-            dataProviderClass = DataProviderForProtonMail.class)
+            dataProviderClass = DataProviderForProtonMail.class,
+            groups = {"tasktests"})
     public void invalidLogInToProtonMail(String username, String password) {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePage = new HomePageProton(webDriver);
@@ -72,11 +76,12 @@ public class ProtonMailTests {
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://account.protonmail.com/login");
     }
 
-    @Test(enabled = false,
+    @Test(enabled = true,
             description = "Log in with empty credentials to Proton email service",
             dataProvider = "empty-credentials",
-            dataProviderClass = DataProviderForProtonMail.class)
-    public void loginWithEmptyCredentialsToProtonMail(String username, String password) {
+            dataProviderClass = DataProviderForProtonMail.class,
+            groups = {"tasktests"})
+    public void invalidLoginWithEmptyCredentialsToProtonMail(String username, String password) {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePage = new HomePageProton(webDriver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
@@ -90,7 +95,7 @@ public class ProtonMailTests {
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://account.protonmail.com/login");
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void teardown() {
         if (webDriver != null) {
             webDriver.quit();
