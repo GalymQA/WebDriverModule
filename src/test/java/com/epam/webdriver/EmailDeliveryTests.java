@@ -8,7 +8,12 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import pageobjects.*;
+import pageobjects.HomePageProton;
+import pageobjects.LogInPageProton;
+import pageobjects.InboxPageProton;
+import pageobjects.HomePageYahoo;
+import pageobjects.LogInPageYahoo;
+import pageobjects.InboxPageYahoo;
 
 import java.time.Duration;
 import java.util.Properties;
@@ -33,7 +38,8 @@ public class EmailDeliveryTests {
     @Test(enabled = false, description = "Smoke test for yahoo mail")
     public void titleOfYahooMailTest() {
         webDriver.get("https://www.yahoo.com/");
-        Assert.assertEquals(webDriver.getTitle(), "Yahoo | Mail, Weather, Search, Politics, News, Finance, Sports & Videos");
+        Assert.assertEquals(webDriver.getTitle(),
+                "Yahoo | Mail, Weather, Search, Politics, News, Finance, Sports & Videos");
     }
 
     @Test(enabled = true,
@@ -45,24 +51,21 @@ public class EmailDeliveryTests {
                                       String usernameYahoo,
                                       String passwordYahoo,
                                       String emailSubjectText,
-                                      String emailText) throws InterruptedException {
+                                      String emailBodyText) throws InterruptedException {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePageProton = new HomePageProton(webDriver);
         Assert.assertTrue(homePageProton.isLoginButtonDisplayed());
         LogInPageProton logInPageProton = homePageProton.clickLoginButton(webDriver);
-        Assert.assertTrue(logInPageProton.isStayCheckedInSelected());
         logInPageProton.enterUsername(usernameProton);
         logInPageProton.enterPassword(passwordProton);
         logInPageProton.submitLoginForm();
         InboxPageProton inboxPageProton = new InboxPageProton(webDriver);
         Assert.assertTrue(inboxPageProton.isNewMessageButtonDisplayed());
-        inboxPageProton.sendEmailTo(usernameYahoo, emailSubjectText, emailText);
+        inboxPageProton.sendEmailTo(usernameYahoo, emailSubjectText, emailBodyText);
         Assert.assertTrue(inboxPageProton.isSentEmailMessageDisplayed());
-
-        // TODO: Have to add the body of a message
-
-        webDriver.close();
-        webDriver.manage().deleteAllCookies();
+        inboxPageProton.clickHeadingDropDownButton();
+        inboxPageProton.clickSignOutButton();
+        inboxPageProton.waitFixedAmountOfTimeAfterEmailHasBeenSent();
         webDriver.get("https://yahoo.com/");
         HomePageYahoo homePageYahoo = new HomePageYahoo(webDriver);
         Assert.assertTrue(homePageYahoo.isSignInButtonDisplayed());
@@ -76,9 +79,15 @@ public class EmailDeliveryTests {
         Assert.assertTrue(logInPageYahoo.isMailLinkDisplayed());
         InboxPageYahoo inboxPageYahoo = logInPageYahoo.clickMailLink(webDriver);
         Assert.assertTrue(inboxPageYahoo.isComposeEmailButtonDisplayed());
-
-        Thread.sleep(10000);
-
+        Assert.assertTrue(inboxPageYahoo.isInboxFieldDisplayed());
+        inboxPageYahoo.clickInboxField();
+        Assert.assertTrue(inboxPageYahoo.isLatestEmailInInboxDisplayed());
+        Assert.assertTrue(inboxPageYahoo.verifyUnreadStatusOfLatestEmail());
+        Assert.assertTrue(inboxPageYahoo.verifySenderOfLatestEmailInInbox(usernameProton));
+        Assert.assertTrue(inboxPageYahoo.verifyMessageSubjectOfLatestEmailInInbox(emailSubjectText));
+        inboxPageYahoo.clickOnLinkToLatestEmailInInbox();
+        Assert.assertTrue(inboxPageYahoo.isBodyOfLatestEmailDisplayed());
+        Assert.assertTrue(inboxPageYahoo.verifyBodyOfLatestEmail(emailBodyText));
     }
 
     @AfterMethod
@@ -87,4 +96,5 @@ public class EmailDeliveryTests {
             webDriver.quit();
         }
     }
+
 }

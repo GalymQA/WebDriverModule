@@ -83,5 +83,4 @@ public class LogInPageYahoo extends PageObject {
         return new InboxPageYahoo(webDriver);
     }
 
-
 }

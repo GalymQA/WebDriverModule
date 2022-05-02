@@ -19,9 +19,12 @@ public class LogInPageProton extends PageObject {
     private final By passwordInputLocator = By.cssSelector("input[id='password']");
     private final By staySignedInLocator = By.cssSelector("input[id='staySignedIn']");
     private final By submitButtonLocator = By.cssSelector("form[name='loginForm'] button[type='submit']");
-    private final By invalidCredentialsMessageLocator = By.xpath("//div[contains(text(),'Incorrect login credentials')]");
-    private final By emptyUsernameMessageLocator = By.xpath("//label[@for='username'] //span[contains(text(), 'This field is required')]");
-    private final By emptyPasswordMessageLocator = By.xpath("//label[@for='password'] //span[contains(text(), 'This field is required')]");
+    private final By invalidCredentialsMessageLocator =
+            By.xpath("//div[contains(text(),'Incorrect login credentials')]");
+    private final By emptyUsernameMessageLocator =
+            By.xpath("//label[@for='username'] //span[contains(text(), 'This field is required')]");
+    private final By emptyPasswordMessageLocator =
+            By.xpath("//label[@for='password'] //span[contains(text(), 'This field is required')]");
 
     @FindBy(css = "input[id='username']")
     private WebElement usernameInput;

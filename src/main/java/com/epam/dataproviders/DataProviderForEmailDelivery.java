@@ -11,8 +11,8 @@ public class DataProviderForEmailDelivery {
                         "epam930542!#$%^",
                         "ViktorPotapov7575@yahoo.com",
                         "epam34534f#%$",
-                        "Test subject",
-                        "Test email from ProtonMail to YahooMail"}
+                        "Printer in office #842 is out of work",
+                        "Hi, Viktor. The printer in office #842 is not working properly. Could you please fix it."}
         };
     }
 

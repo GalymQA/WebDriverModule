@@ -7,7 +7,7 @@ public class PageObject {
 
     protected WebDriver webDriver;
 
-    public PageObject(WebDriver webDriver){
+    public PageObject(WebDriver webDriver) {
         this.webDriver = webDriver;
         PageFactory.initElements(webDriver, this);
     }
