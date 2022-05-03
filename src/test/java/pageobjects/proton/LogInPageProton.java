@@ -14,8 +14,9 @@ import java.util.Properties;
 
 public class LogInPageProton extends PageObject {
 
-    protected WebDriver webDriver;
-    int durationForExpectedConditions;
+    private final WebDriver webDriver;
+    private final int durationForExpectedConditions;
+
     private final By usernameInputLocator = By.cssSelector("input[id='username']");
     private final By passwordInputLocator = By.cssSelector("input[id='password']");
     private final By staySignedInLocator = By.cssSelector("input[id='staySignedIn']");

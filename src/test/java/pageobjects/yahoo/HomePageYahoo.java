@@ -14,8 +14,8 @@ import java.util.Properties;
 
 public class HomePageYahoo extends PageObject {
 
-    protected WebDriver webDriver;
-    int durationForExpectedConditions;
+    private final WebDriver webDriver;
+    private final int durationForExpectedConditions;
 
     private final By signInButtonLocator = By.xpath("(//a[contains(text(), 'Sign in')]) [1]");
 

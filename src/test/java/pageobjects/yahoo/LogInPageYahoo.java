@@ -8,15 +8,14 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.PageObject;
-import pageobjects.yahoo.InboxPageYahoo;
 
 import java.time.Duration;
 import java.util.Properties;
 
 public class LogInPageYahoo extends PageObject {
 
-    protected WebDriver webDriver;
-    int durationForExpectedConditions;
+    private final WebDriver webDriver;
+    private final int durationForExpectedConditions;
 
     private final By loginInputLocator = By.cssSelector("input[id='login-username']");
     private final By submitLoginButtonLocator = By.cssSelector("input[id='login-signin']");

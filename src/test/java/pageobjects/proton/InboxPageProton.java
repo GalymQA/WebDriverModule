@@ -14,8 +14,9 @@ import java.util.Properties;
 
 public class InboxPageProton extends PageObject {
 
-    protected WebDriver webDriver;
-    int durationForExpectedConditions;
+    private final WebDriver webDriver;
+    private final int durationForExpectedConditions;
+
     private final By newMessageButtonLocator = By.xpath("//button[contains(text(),'New message')]");
     private final By emailToAddressLocator = By.xpath("//input[@data-testid='composer:to']");
     private final By emailSubjectLocator = By.xpath("//input[@data-testid='composer:subject']");

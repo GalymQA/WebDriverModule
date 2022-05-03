@@ -14,8 +14,8 @@ import java.util.Properties;
 
 public class HomePageProton extends PageObject {
 
-    protected WebDriver webDriver;
-    int durationForExpectedConditions;
+    private final WebDriver webDriver;
+    private final int durationForExpectedConditions;
 
     private final By loginButtonLocator = By.xpath("//a[contains(text(),'LOG IN')]");
 

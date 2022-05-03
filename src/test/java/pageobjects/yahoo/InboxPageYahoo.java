@@ -14,8 +14,8 @@ import java.util.Properties;
 
 public class InboxPageYahoo extends PageObject {
 
-    protected WebDriver webDriver;
-    int durationForExpectedConditions;
+    private final WebDriver webDriver;
+    private final int durationForExpectedConditions;
 
     private final By composeEmailButtonLocator = By.cssSelector("a[data-test-id='compose-button']");
     private final By inboxFieldLocator = By.cssSelector("div[data-test-folder-container='Inbox']");
