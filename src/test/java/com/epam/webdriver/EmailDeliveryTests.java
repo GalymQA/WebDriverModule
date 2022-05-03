@@ -37,7 +37,7 @@ public class EmailDeliveryTests {
 
     @Test(enabled = true,
             description = "Smoke test for yahoo mail",
-            groups = {"smoketests"})
+            groups = {"smoke tests"})
     public void verifyTitleOfYahooMail() {
         webDriver.get("https://www.yahoo.com/");
         Assert.assertEquals(webDriver.getTitle(),
@@ -48,7 +48,7 @@ public class EmailDeliveryTests {
             description = "Verify delivery of email from ProtonMail to YahooMail",
             dataProvider = "valid-credentials-for-email-delivery",
             dataProviderClass = DataProviderForEmailDelivery.class,
-            groups = {"tasktests"})
+            groups = {"task tests"})
     public void verifyDeliveryOfEmail(String usernameProton,
                                       String passwordProton,
                                       String usernameYahoo,
