@@ -40,6 +40,9 @@ public class ProtonMailTests {
         Assert.assertEquals(webDriver.getTitle(), "Secure email: ProtonMail is free encrypted email.");
     }
 
+    /**
+     * Test might require user interaction to pass CAPTCHA
+     */
     @Test(enabled = true,
             description = "Log in with valid username and password to Proton email service",
             dataProvider = "valid-credentials",
@@ -58,6 +61,9 @@ public class ProtonMailTests {
         Assert.assertTrue(inboxPage.isNewMessageButtonDisplayed());
     }
 
+    /**
+     * Test might require user interaction to pass CAPTCHA
+     */
     @Test(enabled = true,
             description = "Log in with invalid username and password to Proton email service",
             dataProvider = "invalid-credentials",

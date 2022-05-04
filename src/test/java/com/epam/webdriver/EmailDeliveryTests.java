@@ -44,6 +44,9 @@ public class EmailDeliveryTests {
                 "Yahoo | Mail, Weather, Search, Politics, News, Finance, Sports & Videos");
     }
 
+    /**
+     * Test might require user interaction to pass CAPTCHA
+     */
     @Test(enabled = true,
             description = "Verify delivery of email from ProtonMail to YahooMail",
             dataProvider = "valid-credentials-for-email-delivery",
