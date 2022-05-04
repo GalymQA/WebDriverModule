@@ -7,7 +7,7 @@ import java.util.Properties;
 public class PropertyLoader {
 
     private final static String APP_CONFIG_PATH =
-            "/home/titan/Desktop/Epam/Solutions/WebDriverSolutions/webdriver-task/src/resources/config.properties";
+            "/home/titan/Desktop/Epam/Solutions/WebDriverSolutions/webdriver-task/src/test/resources/config.properties";
 
     public static void loadProperties(Properties appProps) {
         try {
