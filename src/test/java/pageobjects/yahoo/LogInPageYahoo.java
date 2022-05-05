@@ -1,19 +1,16 @@
 package pageobjects.yahoo;
 
 import com.epam.utilities.PropertyLoader;
+import com.epam.utilities.WaitWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.PageObject;
-
-import java.time.Duration;
 
 public class LogInPageYahoo extends PageObject {
 
     private final WebDriver webDriver;
-    private final int durationForExpectedConditions;
+    private final WaitWebElement waitWebElement;
 
     @FindBy(css = "input[id='login-username']")
     private WebElement loginInput;
@@ -33,12 +30,13 @@ public class LogInPageYahoo extends PageObject {
     public LogInPageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        durationForExpectedConditions =
+        int durationForExpectedConditions =
                 Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions);
     }
 
     public boolean isLoginInputDisplayed() {
-        return waitVisibilityOf(loginInput);
+        return waitWebElement.waitVisibilityOf(loginInput);
     }
 
     public void enterUsername(String username) {
@@ -51,7 +49,7 @@ public class LogInPageYahoo extends PageObject {
     }
 
     public boolean isPasswordInputDisplayed() {
-        return waitVisibilityOf(passwordInput);
+        return waitWebElement.waitVisibilityOf(passwordInput);
     }
 
     public void enterPassword(String password) {
@@ -64,17 +62,12 @@ public class LogInPageYahoo extends PageObject {
     }
 
     public boolean isMailLinkDisplayed() {
-        return waitVisibilityOf(mailLink);
+        return waitWebElement.waitVisibilityOf(mailLink);
     }
 
     public InboxPageYahoo clickMailLinkAndReturnNewInboxPage(WebDriver webDriver) {
         mailLink.click();
         return new InboxPageYahoo(webDriver);
-    }
-
-    private boolean waitVisibilityOf(WebElement webElement) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
     }
 
 }

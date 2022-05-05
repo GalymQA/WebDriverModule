@@ -1,20 +1,17 @@
 package pageobjects.yahoo;
 
 import com.epam.utilities.PropertyLoader;
+import com.epam.utilities.WaitWebElement;
 import enums.BooleanStrings;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.PageObject;
-
-import java.time.Duration;
 
 public class InboxPageYahoo extends PageObject {
 
     private final WebDriver webDriver;
-    private final int durationForExpectedConditions;
+    private final WaitWebElement waitWebElement;
 
     @FindBy(css = "a[data-test-id='compose-button']")
     private WebElement composeEmailButton;
@@ -37,15 +34,17 @@ public class InboxPageYahoo extends PageObject {
     public InboxPageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        durationForExpectedConditions = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        int durationForExpectedConditions =
+                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions);
     }
 
     public boolean isComposeEmailButtonDisplayed() {
-        return waitVisibilityOf(composeEmailButton);
+        return waitWebElement.waitVisibilityOf(composeEmailButton);
     }
 
     public boolean isInboxFieldDisplayed() {
-        return waitVisibilityOf(inboxField);
+        return waitWebElement.waitVisibilityOf(inboxField);
     }
 
     public void clickInboxField() {
@@ -53,7 +52,7 @@ public class InboxPageYahoo extends PageObject {
     }
 
     public boolean isLatestEmailInInboxDisplayed() {
-        return waitVisibilityOf(latestEmailInInbox);
+        return waitWebElement.waitVisibilityOf(latestEmailInInbox);
     }
 
     public boolean verifyUnreadStatusOfLatestEmail() {
@@ -73,16 +72,11 @@ public class InboxPageYahoo extends PageObject {
     }
 
     public boolean isBodyOfLatestEmailDisplayed() {
-        return waitVisibilityOf(bodyOfLatestEmail);
+        return waitWebElement.waitVisibilityOf(bodyOfLatestEmail);
     }
 
     public boolean verifyBodyOfLatestEmail(String messageBody) {
         return messageBody.equals(bodyOfLatestEmail.getText());
-    }
-
-    private boolean waitVisibilityOf(WebElement webElement) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
     }
 
 }

@@ -1,19 +1,16 @@
 package pageobjects.proton;
 
 import com.epam.utilities.PropertyLoader;
+import com.epam.utilities.WaitWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.PageObject;
-
-import java.time.Duration;
 
 public class LogInPageProton extends PageObject {
 
     private final WebDriver webDriver;
-    private final int durationForExpectedConditions;
+    private final WaitWebElement waitWebElement;
 
     @FindBy(css = "input[id='username']")
     private WebElement usernameInput;
@@ -39,7 +36,9 @@ public class LogInPageProton extends PageObject {
     public LogInPageProton(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        durationForExpectedConditions = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        int durationForExpectedConditions =
+                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions);
     }
 
     public void enterUsername(String username) {
@@ -61,20 +60,15 @@ public class LogInPageProton extends PageObject {
     }
 
     public boolean isInvalidCredentialsMessageDisplayed() {
-        return waitVisibilityOf(invalidCredentialsMessage);
+        return waitWebElement.waitVisibilityOf(invalidCredentialsMessage);
     }
 
     public boolean isEmptyUsernameMessageDisplayed() {
-        return waitVisibilityOf(emptyUsernameMessage);
+        return waitWebElement.waitVisibilityOf(emptyUsernameMessage);
     }
 
     public boolean isEmptyPasswordMessageDisplayed() {
-        return waitVisibilityOf(emptyPasswordMessage);
-    }
-
-    private boolean waitVisibilityOf(WebElement webElement) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
+        return waitWebElement.waitVisibilityOf(emptyPasswordMessage);
     }
 
 }

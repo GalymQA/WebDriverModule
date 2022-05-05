@@ -1,19 +1,16 @@
 package pageobjects.proton;
 
 import com.epam.utilities.PropertyLoader;
+import com.epam.utilities.WaitWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.PageObject;
-
-import java.time.Duration;
 
 public class InboxPageProton extends PageObject {
 
     private final WebDriver webDriver;
-    private final int durationForExpectedConditions;
+    private final WaitWebElement waitWebElement;
 
     @FindBy(xpath = "//button[contains(text(),'New message')]")
     private WebElement newMessageButton;
@@ -45,18 +42,20 @@ public class InboxPageProton extends PageObject {
     public InboxPageProton(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        durationForExpectedConditions = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        int durationForExpectedConditions =
+                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions);
     }
 
     public boolean isNewMessageButtonDisplayed() {
-        return waitVisibilityOf(newMessageButton);
+        return waitWebElement.waitVisibilityOf(newMessageButton);
     }
 
     public void sendEmailTo(String emailTo, String emailSubjectText, String emailBodyText) {
         newMessageButton.click();
-        waitVisibilityOf(emailToAddress);
+        waitWebElement.waitVisibilityOf(emailToAddress);
         emailToAddress.sendKeys(emailTo);
-        waitVisibilityOf(emailSubject);
+        waitWebElement.waitVisibilityOf(emailSubject);
         emailSubject.sendKeys(emailSubjectText);
         webDriver.switchTo().frame(emailBodyIFrame);
         editorForEmailBody.sendKeys(emailBodyText);
@@ -65,7 +64,7 @@ public class InboxPageProton extends PageObject {
     }
 
     public boolean isSentEmailMessageDisplayed() {
-        return waitVisibilityOf(emailSentMessage);
+        return waitWebElement.waitVisibilityOf(emailSentMessage);
     }
 
     public void clickHeadingDropDownButton() {
@@ -77,12 +76,7 @@ public class InboxPageProton extends PageObject {
     }
 
     public void waitFixedAmountOfTimeAfterEmailHasBeenSent() throws InterruptedException {
-        Thread.sleep(Duration.ofSeconds(durationForExpectedConditions).toMillis());
-    }
-
-    private boolean waitVisibilityOf(WebElement webElement) {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
+        waitWebElement.waitFixedAmountOfTime();
     }
 
 }
