@@ -43,8 +43,8 @@ public class EmailDeliveryTests {
 
     /**
      * 1. Test might require user interaction to pass CAPTCHA
-     * 2. After am email is sent from ProtonMail, the test waits for some time
-     * (so that the email is delivered to Yahoo Mail).
+     * 2. After an email is sent from ProtonMail, the test waits for some time at ProtonMail
+     * so that the email is delivered to Yahoo Mail
      */
     @Test(enabled = true,
             description = "Verify delivery of email from ProtonMail to YahooMail",

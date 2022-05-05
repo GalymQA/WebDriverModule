@@ -1,6 +1,7 @@
 package pageobjects.yahoo;
 
 import com.epam.utilities.PropertyLoader;
+import enums.BooleanStrings;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -56,7 +57,7 @@ public class InboxPageYahoo extends PageObject {
     }
 
     public boolean verifyUnreadStatusOfLatestEmail() {
-        return "false".equals(linkToLatestEmailInInbox.getAttribute("data-test-read"));
+        return BooleanStrings.FALSE.toString().equals(linkToLatestEmailInInbox.getAttribute("data-test-read"));
     }
 
     public boolean verifySenderOfLatestEmailInInbox(String senderOfEmail) {
