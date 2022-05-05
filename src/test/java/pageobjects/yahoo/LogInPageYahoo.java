@@ -33,7 +33,8 @@ public class LogInPageYahoo extends PageObject {
     public LogInPageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        durationForExpectedConditions = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        durationForExpectedConditions =
+                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
     }
 
     public boolean isLoginInputDisplayed() {

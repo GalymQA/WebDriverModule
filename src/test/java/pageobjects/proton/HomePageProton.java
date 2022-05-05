@@ -29,7 +29,7 @@ public class HomePageProton extends PageObject {
         return waitVisibilityOf(loginButton);
     }
 
-    public LogInPageProton clickLoginButton(WebDriver driver) {
+    public LogInPageProton clickLoginButtonAndReturnNewLoginPage(WebDriver driver) {
         loginButton.click();
         return new LogInPageProton(driver);
     }

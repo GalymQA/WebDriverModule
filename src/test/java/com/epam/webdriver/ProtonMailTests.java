@@ -49,7 +49,7 @@ public class ProtonMailTests {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePage = new HomePageProton(webDriver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
-        LogInPageProton loginPage = homePage.clickLoginButton(webDriver);
+        LogInPageProton loginPage = homePage.clickLoginButtonAndReturnNewLoginPage(webDriver);
         Assert.assertTrue(loginPage.isStayCheckedInSelected());
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
@@ -70,7 +70,7 @@ public class ProtonMailTests {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePage = new HomePageProton(webDriver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
-        LogInPageProton loginPage = homePage.clickLoginButton(webDriver);
+        LogInPageProton loginPage = homePage.clickLoginButtonAndReturnNewLoginPage(webDriver);
         Assert.assertTrue(loginPage.isStayCheckedInSelected());
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);
@@ -88,7 +88,7 @@ public class ProtonMailTests {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePage = new HomePageProton(webDriver);
         Assert.assertTrue(homePage.isLoginButtonDisplayed());
-        LogInPageProton loginPage = homePage.clickLoginButton(webDriver);
+        LogInPageProton loginPage = homePage.clickLoginButtonAndReturnNewLoginPage(webDriver);
         Assert.assertTrue(loginPage.isStayCheckedInSelected());
         loginPage.enterUsername(username);
         loginPage.enterPassword(password);

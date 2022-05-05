@@ -60,7 +60,7 @@ public class EmailDeliveryTests {
         webDriver.get("https://protonmail.com/");
         HomePageProton homePageProton = new HomePageProton(webDriver);
         Assert.assertTrue(homePageProton.isLoginButtonDisplayed());
-        LogInPageProton logInPageProton = homePageProton.clickLoginButton(webDriver);
+        LogInPageProton logInPageProton = homePageProton.clickLoginButtonAndReturnNewLoginPage(webDriver);
         logInPageProton.enterUsername(usernameProton);
         logInPageProton.enterPassword(passwordProton);
         logInPageProton.submitLoginForm();
@@ -74,7 +74,7 @@ public class EmailDeliveryTests {
         webDriver.get("https://yahoo.com/");
         HomePageYahoo homePageYahoo = new HomePageYahoo(webDriver);
         Assert.assertTrue(homePageYahoo.isSignInButtonDisplayed());
-        LogInPageYahoo logInPageYahoo = homePageYahoo.clickSignInButton(webDriver);
+        LogInPageYahoo logInPageYahoo = homePageYahoo.clickSignInButtonAndReturnNewLoginPage(webDriver);
         Assert.assertTrue(logInPageYahoo.isLoginInputDisplayed());
         logInPageYahoo.enterUsername(usernameYahoo);
         logInPageYahoo.clickSubmitLoginButton();

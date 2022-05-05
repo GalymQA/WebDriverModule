@@ -28,7 +28,7 @@ public class HomePageYahoo extends PageObject {
         return waitVisibilityOf(signInButton);
     }
 
-    public LogInPageYahoo clickSignInButton(WebDriver driver) {
+    public LogInPageYahoo clickSignInButtonAndReturnNewLoginPage(WebDriver driver) {
         signInButton.click();
         return new LogInPageYahoo(webDriver);
     }
