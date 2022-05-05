@@ -28,13 +28,17 @@ public class HomePageYahoo extends PageObject {
     }
 
     public boolean isSignInButtonDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(signInButton)).isDisplayed();
+        return waitVisibilityOf(signInButton);
     }
 
     public LogInPageYahoo clickSignInButton(WebDriver driver) {
         signInButton.click();
         return new LogInPageYahoo(webDriver);
+    }
+
+    private boolean waitVisibilityOf(WebElement webElement) {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
+        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
     }
 
 }

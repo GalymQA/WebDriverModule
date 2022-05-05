@@ -28,13 +28,17 @@ public class HomePageProton extends PageObject {
     }
 
     public boolean isLoginButtonDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(loginButton)).isDisplayed();
+        return waitVisibilityOf(loginButton);
     }
 
     public LogInPageProton clickLoginButton(WebDriver driver) {
         loginButton.click();
         return new LogInPageProton(driver);
+    }
+
+    private boolean waitVisibilityOf(WebElement webElement) {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
+        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
     }
 
 }

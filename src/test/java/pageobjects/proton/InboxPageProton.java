@@ -52,26 +52,23 @@ public class InboxPageProton extends PageObject {
     }
 
     public boolean isNewMessageButtonDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(newMessageButton)).isDisplayed();
+        return waitVisibilityOf(newMessageButton);
     }
 
-    public void sendEmailTo(String emailTo, String emailSubjectText, String emailText) {
+    public void sendEmailTo(String emailTo, String emailSubjectText, String emailBodyText) {
         newMessageButton.click();
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        wait.until(ExpectedConditions.visibilityOf(emailToAddress)).isDisplayed();
-        wait.until(ExpectedConditions.visibilityOf(emailSubject)).isDisplayed();
+        waitVisibilityOf(emailToAddress);
         emailToAddress.sendKeys(emailTo);
+        waitVisibilityOf(emailSubject);
         emailSubject.sendKeys(emailSubjectText);
         webDriver.switchTo().frame(emailBodyIFrame);
-        editorForEmailBody.sendKeys(emailText);
+        editorForEmailBody.sendKeys(emailBodyText);
         webDriver.switchTo().defaultContent();
         sendEmailButton.click();
     }
 
     public boolean isSentEmailMessageDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(emailSentMessage)).isDisplayed();
+        return waitVisibilityOf(emailSentMessage);
     }
 
     public void clickHeadingDropDownButton() {
@@ -84,6 +81,11 @@ public class InboxPageProton extends PageObject {
 
     public void waitFixedAmountOfTimeAfterEmailHasBeenSent() throws InterruptedException {
         Thread.sleep(Duration.ofSeconds(durationForExpectedConditions).toMillis());
+    }
+
+    private boolean waitVisibilityOf(WebElement webElement) {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
+        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
     }
 
 }

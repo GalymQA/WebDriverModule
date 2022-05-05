@@ -45,7 +45,9 @@ public class EmailDeliveryTests {
     }
 
     /**
-     * Test might require user interaction to pass CAPTCHA
+     * 1. Test might require user interaction to pass CAPTCHA
+     * 2. After am email is sent from ProtonMail, the test waits for some time
+     * (so that the email is delivered to Yahoo Mail).
      */
     @Test(enabled = true,
             description = "Verify delivery of email from ProtonMail to YahooMail",
@@ -83,7 +85,7 @@ public class EmailDeliveryTests {
         logInPageYahoo.enterPassword(passwordYahoo);
         logInPageYahoo.clickSubmitPasswordButton();
         Assert.assertTrue(logInPageYahoo.isMailLinkDisplayed());
-        InboxPageYahoo inboxPageYahoo = logInPageYahoo.clickMailLink(webDriver);
+        InboxPageYahoo inboxPageYahoo = logInPageYahoo.clickMailLinkAndReturnNewInboxPage(webDriver);
         Assert.assertTrue(inboxPageYahoo.isComposeEmailButtonDisplayed());
         Assert.assertTrue(inboxPageYahoo.isInboxFieldDisplayed());
         inboxPageYahoo.clickInboxField();

@@ -64,18 +64,20 @@ public class LogInPageProton extends PageObject {
     }
 
     public boolean isInvalidCredentialsMessageDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(invalidCredentialsMessage)).isDisplayed();
+        return waitVisibilityOf(invalidCredentialsMessage);
     }
 
     public boolean isEmptyUsernameMessageDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(emptyUsernameMessage)).isDisplayed();
+        return waitVisibilityOf(emptyUsernameMessage);
     }
 
     public boolean isEmptyPasswordMessageDisplayed() {
+        return waitVisibilityOf(emptyPasswordMessage);
+    }
+
+    private boolean waitVisibilityOf(WebElement webElement) {
         WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(emptyPasswordMessage)).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
     }
 
 }

@@ -40,8 +40,7 @@ public class LogInPageYahoo extends PageObject {
     }
 
     public boolean isLoginInputDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(loginInput)).isDisplayed();
+        return waitVisibilityOf(loginInput);
     }
 
     public void enterUsername(String username) {
@@ -54,8 +53,7 @@ public class LogInPageYahoo extends PageObject {
     }
 
     public boolean isPasswordInputDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(passwordInput)).isDisplayed();
+        return waitVisibilityOf(passwordInput);
     }
 
     public void enterPassword(String password) {
@@ -68,13 +66,17 @@ public class LogInPageYahoo extends PageObject {
     }
 
     public boolean isMailLinkDisplayed() {
-        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
-        return wait.until(ExpectedConditions.visibilityOf(mailLink)).isDisplayed();
+        return waitVisibilityOf(mailLink);
     }
 
-    public InboxPageYahoo clickMailLink(WebDriver webDriver) {
+    public InboxPageYahoo clickMailLinkAndReturnNewInboxPage(WebDriver webDriver) {
         mailLink.click();
         return new InboxPageYahoo(webDriver);
+    }
+
+    private boolean waitVisibilityOf(WebElement webElement) {
+        WebDriverWait wait = new WebDriverWait(webDriver, Duration.ofSeconds(durationForExpectedConditions));
+        return wait.until(ExpectedConditions.visibilityOf(webElement)).isDisplayed();
     }
 
 }
