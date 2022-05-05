@@ -9,7 +9,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.PageObject;
 
 import java.time.Duration;
-import java.util.Properties;
 
 public class InboxPageYahoo extends PageObject {
 
@@ -37,9 +36,7 @@ public class InboxPageYahoo extends PageObject {
     public InboxPageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        Properties appProperties = new Properties();
-        PropertyLoader.loadProperties(appProperties);
-        durationForExpectedConditions = Integer.parseInt(appProperties.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
+        durationForExpectedConditions = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
     }
 
     public boolean isComposeEmailButtonDisplayed() {

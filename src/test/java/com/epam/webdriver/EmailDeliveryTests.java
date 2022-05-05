@@ -16,7 +16,6 @@ import pageobjects.yahoo.LogInPageYahoo;
 import pageobjects.yahoo.InboxPageYahoo;
 
 import java.time.Duration;
-import java.util.Properties;
 
 public class EmailDeliveryTests {
 
@@ -24,11 +23,9 @@ public class EmailDeliveryTests {
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        Properties appProperties = new Properties();
-        PropertyLoader.loadProperties(appProperties);
-        String webDriverName = appProperties.getProperty("WEB_DRIVER_NAME");
-        String locationOfWebDriver = appProperties.getProperty("LOCATION_OF_WEB_DRIVER");
-        int durationForImplicitWait = Integer.parseInt(appProperties.getProperty("DURATION_FOR_IMPLICIT_WAIT"));
+        String webDriverName = PropertyLoader.getProperty("WEB_DRIVER_NAME");
+        String locationOfWebDriver = PropertyLoader.getProperty("LOCATION_OF_WEB_DRIVER");
+        int durationForImplicitWait = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_IMPLICIT_WAIT"));
         System.setProperty(webDriverName, locationOfWebDriver);
         webDriver = new ChromeDriver();
         webDriver.manage().window().maximize();

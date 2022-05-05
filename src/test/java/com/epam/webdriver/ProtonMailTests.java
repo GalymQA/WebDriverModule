@@ -13,7 +13,6 @@ import pageobjects.proton.InboxPageProton;
 import pageobjects.proton.LogInPageProton;
 
 import java.time.Duration;
-import java.util.Properties;
 
 public class ProtonMailTests {
 
@@ -21,11 +20,9 @@ public class ProtonMailTests {
 
     @BeforeMethod(alwaysRun = true)
     public void setUp() {
-        Properties appProperties = new Properties();
-        PropertyLoader.loadProperties(appProperties);
-        String webDriverName = appProperties.getProperty("WEB_DRIVER_NAME");
-        String locationOfWebDriver = appProperties.getProperty("LOCATION_OF_WEB_DRIVER");
-        int durationForImplicitWait = Integer.parseInt(appProperties.getProperty("DURATION_FOR_IMPLICIT_WAIT"));
+        String webDriverName = PropertyLoader.getProperty("WEB_DRIVER_NAME");
+        String locationOfWebDriver = PropertyLoader.getProperty("LOCATION_OF_WEB_DRIVER");
+        int durationForImplicitWait = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_IMPLICIT_WAIT"));
         System.setProperty(webDriverName, locationOfWebDriver);
         webDriver = new ChromeDriver();
         webDriver.manage().window().maximize();
