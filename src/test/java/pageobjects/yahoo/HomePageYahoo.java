@@ -1,7 +1,6 @@
 package pageobjects.yahoo;
 
 import com.epam.utilities.PropertyLoader;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,8 +15,6 @@ public class HomePageYahoo extends PageObject {
 
     private final WebDriver webDriver;
     private final int durationForExpectedConditions;
-
-    private final By signInButtonLocator = By.xpath("(//a[contains(text(), 'Sign in')]) [1]");
 
     @FindBy(xpath = "(//a[contains(text(), 'Sign in')]) [1]")
     private WebElement signInButton;

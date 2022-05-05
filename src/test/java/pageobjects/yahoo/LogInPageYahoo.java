@@ -1,7 +1,6 @@
 package pageobjects.yahoo;
 
 import com.epam.utilities.PropertyLoader;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,12 +15,6 @@ public class LogInPageYahoo extends PageObject {
 
     private final WebDriver webDriver;
     private final int durationForExpectedConditions;
-
-    private final By loginInputLocator = By.cssSelector("input[id='login-username']");
-    private final By submitLoginButtonLocator = By.cssSelector("input[id='login-signin']");
-    private final By passwordInputLocator = By.cssSelector("input[id='login-passwd']");
-    private final By submitPasswordButtonLocator = By.cssSelector("button[id='login-signin']");
-    private final By mailLinkLocator = By.cssSelector("a[id='ybarMailLink']");
 
     @FindBy(css = "input[id='login-username']")
     private WebElement loginInput;

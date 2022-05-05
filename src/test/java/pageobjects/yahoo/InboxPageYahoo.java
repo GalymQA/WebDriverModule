@@ -1,7 +1,6 @@
 package pageobjects.yahoo;
 
 import com.epam.utilities.PropertyLoader;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,17 +15,6 @@ public class InboxPageYahoo extends PageObject {
 
     private final WebDriver webDriver;
     private final int durationForExpectedConditions;
-
-    private final By composeEmailButtonLocator = By.cssSelector("a[data-test-id='compose-button']");
-    private final By inboxFieldLocator = By.cssSelector("div[data-test-folder-container='Inbox']");
-    private final By latestEmailInInboxLocator = By.cssSelector(
-            "ul[aria-label='Message list'] > li:nth-child(3) > a > div > div > div[data-test-id='senders'] > span");
-    private final By messageSubjectOfLatestEmailInInboxLocator = By.cssSelector(
-            "ul[aria-label='Message list'] > li:nth-child(3) > a >div > div span[data-test-id='message-subject']");
-    private final By linkToLatestEmailInInboxLocator = By.cssSelector(
-            "ul[aria-label='Message list'] > li:nth-child(3) > a");
-    private final By bodyOfLatestEmailLocator = By.cssSelector(
-            "div[data-test-id='message-view-body-content'] > div > div > div > div:nth-child(1)");
 
     @FindBy(css = "a[data-test-id='compose-button']")
     private WebElement composeEmailButton;

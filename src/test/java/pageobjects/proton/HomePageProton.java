@@ -1,7 +1,6 @@
 package pageobjects.proton;
 
 import com.epam.utilities.PropertyLoader;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,8 +15,6 @@ public class HomePageProton extends PageObject {
 
     private final WebDriver webDriver;
     private final int durationForExpectedConditions;
-
-    private final By loginButtonLocator = By.xpath("//a[contains(text(),'LOG IN')]");
 
     @FindBy(xpath = "//a[contains(text(),'LOG IN')]")
     private WebElement loginButton;

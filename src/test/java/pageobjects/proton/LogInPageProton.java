@@ -1,7 +1,6 @@
 package pageobjects.proton;
 
 import com.epam.utilities.PropertyLoader;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,17 +15,6 @@ public class LogInPageProton extends PageObject {
 
     private final WebDriver webDriver;
     private final int durationForExpectedConditions;
-
-    private final By usernameInputLocator = By.cssSelector("input[id='username']");
-    private final By passwordInputLocator = By.cssSelector("input[id='password']");
-    private final By staySignedInLocator = By.cssSelector("input[id='staySignedIn']");
-    private final By submitButtonLocator = By.cssSelector("form[name='loginForm'] button[type='submit']");
-    private final By invalidCredentialsMessageLocator =
-            By.xpath("//div[contains(text(),'Incorrect login credentials')]");
-    private final By emptyUsernameMessageLocator =
-            By.xpath("//label[@for='username'] //span[contains(text(), 'This field is required')]");
-    private final By emptyPasswordMessageLocator =
-            By.xpath("//label[@for='password'] //span[contains(text(), 'This field is required')]");
 
     @FindBy(css = "input[id='username']")
     private WebElement usernameInput;
