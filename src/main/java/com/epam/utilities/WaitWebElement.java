@@ -10,11 +10,13 @@ import java.time.Duration;
 public class WaitWebElement {
 
     private final WebDriverWait webDriverWait;
-    private final Duration durationOfSeconds;
+    private final Duration durationOfSecondsForExpectedConditions;
+    private final Duration durationOfSecondsForThreadSleep;
 
-    public WaitWebElement(WebDriver webDriver, int durationForExpectedConditions) {
-        durationOfSeconds = Duration.ofSeconds(durationForExpectedConditions);
-        webDriverWait = new WebDriverWait(webDriver, durationOfSeconds);
+    public WaitWebElement(WebDriver webDriver, int durationForExpectedConditions, int durationForThreadSleep) {
+        durationOfSecondsForThreadSleep = Duration.ofSeconds(durationForThreadSleep);
+        durationOfSecondsForExpectedConditions = Duration.ofSeconds(durationForExpectedConditions);
+        webDriverWait = new WebDriverWait(webDriver, durationOfSecondsForExpectedConditions);
     }
 
     public boolean waitVisibilityOf(WebElement webElement) {
@@ -22,7 +24,7 @@ public class WaitWebElement {
     }
 
     public void waitFixedAmountOfTime() throws InterruptedException {
-        Thread.sleep(durationOfSeconds.toMillis());
+        Thread.sleep(durationOfSecondsForThreadSleep.toMillis());
     }
 
 }

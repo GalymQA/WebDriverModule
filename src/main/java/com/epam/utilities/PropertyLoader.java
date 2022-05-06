@@ -10,6 +10,7 @@ public class PropertyLoader {
             "/home/titan/Desktop/Epam/Solutions/WebDriverSolutions/webdriver-task/src/test/resources/config.properties";
 
     private static final Properties properties;
+
     static {
         properties = new Properties();
         loadProperties(properties);

@@ -38,7 +38,9 @@ public class LogInPageProton extends PageObject {
         this.webDriver = webDriver;
         int durationForExpectedConditions =
                 Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
-        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions);
+        int durationForThreadSleep =
+                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_THREAD_SLEEP"));
+        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions, durationForThreadSleep);
     }
 
     public void enterUsername(String username) {
