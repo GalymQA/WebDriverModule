@@ -14,9 +14,9 @@ public class WaitWebElement {
     private final Duration durationOfSecondsForThreadSleep;
 
     public WaitWebElement(WebDriver webDriver, int durationForExpectedConditions, int durationForThreadSleep) {
-        durationOfSecondsForThreadSleep = Duration.ofSeconds(durationForThreadSleep);
-        durationOfSecondsForExpectedConditions = Duration.ofSeconds(durationForExpectedConditions);
-        webDriverWait = new WebDriverWait(webDriver, durationOfSecondsForExpectedConditions);
+        this.durationOfSecondsForThreadSleep = Duration.ofSeconds(durationForThreadSleep);
+        this.durationOfSecondsForExpectedConditions = Duration.ofSeconds(durationForExpectedConditions);
+        this.webDriverWait = new WebDriverWait(webDriver, durationOfSecondsForExpectedConditions);
     }
 
     public boolean waitVisibilityOf(WebElement webElement) {
