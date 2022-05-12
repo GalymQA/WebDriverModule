@@ -9,13 +9,13 @@ public class LogInPageYahoo extends PageObject {
 
     private final WebDriver webDriver;
 
-    @FindBy(css = "input[id='login-username']")
+    @FindBy(id = "login-username")
     private WebElement loginInput;
 
     @FindBy(css = "input[id='login-signin']")
     private WebElement submitLoginButton;
 
-    @FindBy(css = "input[id='login-passwd']")
+    @FindBy(id = "login-passwd")
     private WebElement passwordInput;
 
     @FindBy(css = "button[id='login-signin']")

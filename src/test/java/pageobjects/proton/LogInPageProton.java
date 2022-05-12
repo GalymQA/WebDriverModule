@@ -9,13 +9,13 @@ public class LogInPageProton extends PageObject {
 
     private final WebDriver webDriver;
 
-    @FindBy(css = "input[id='username']")
+    @FindBy(id = "username")
     private WebElement usernameInput;
 
-    @FindBy(css = "input[id='password']")
+    @FindBy(id = "password")
     private WebElement passwordInput;
 
-    @FindBy(css = "input[id='staySignedIn']")
+    @FindBy(id = "staySignedIn")
     private WebElement staySignedInInput;
 
     @FindBy(css = "form[name='loginForm'] button[type='submit']")
