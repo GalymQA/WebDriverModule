@@ -29,8 +29,8 @@ public class ProtonMailTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @Test(description = "Smoke test for proton mail",
-            groups = {"smoke tests"})
+    @Test(description = "Health test for proton mail",
+            groups = {"health tests"})
     public void verifyTitleOfProtonMail() {
         webDriver.get("https://protonmail.com/");
         Assert.assertEquals(webDriver.getTitle(), "Secure email: ProtonMail is free encrypted email.");

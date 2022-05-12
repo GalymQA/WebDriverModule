@@ -32,8 +32,8 @@ public class EmailDeliveryTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @Test(description = "Smoke test for yahoo mail",
-            groups = {"smoke tests"})
+    @Test(description = "Health test for yahoo mail",
+            groups = {"health tests"})
     public void verifyTitleOfYahooMail() {
         webDriver.get("https://www.yahoo.com/");
         Assert.assertEquals(webDriver.getTitle(),
