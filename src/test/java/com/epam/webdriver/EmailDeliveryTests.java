@@ -32,8 +32,7 @@ public class EmailDeliveryTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @Test(enabled = true,
-            description = "Smoke test for yahoo mail",
+    @Test(description = "Smoke test for yahoo mail",
             groups = {"smoke tests"})
     public void verifyTitleOfYahooMail() {
         webDriver.get("https://www.yahoo.com/");
@@ -46,8 +45,7 @@ public class EmailDeliveryTests {
      * 2. After an email is sent from ProtonMail, the test waits for some time at ProtonMail
      * so that the email is delivered to Yahoo Mail
      */
-    @Test(enabled = true,
-            description = "Verify delivery of email from ProtonMail to YahooMail",
+    @Test(description = "Verify delivery of email from ProtonMail to YahooMail",
             dataProvider = "valid-credentials-for-email-delivery",
             dataProviderClass = DataProviderForEmailDelivery.class,
             groups = {"task tests"})

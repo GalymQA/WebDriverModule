@@ -29,8 +29,7 @@ public class ProtonMailTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @Test(enabled = true,
-            description = "Smoke test for proton mail",
+    @Test(description = "Smoke test for proton mail",
             groups = {"smoke tests"})
     public void verifyTitleOfProtonMail() {
         webDriver.get("https://protonmail.com/");
@@ -40,8 +39,7 @@ public class ProtonMailTests {
     /**
      * Test might require user interaction to pass CAPTCHA
      */
-    @Test(enabled = true,
-            description = "Log in with valid username and password to Proton email service",
+    @Test(description = "Log in with valid username and password to Proton email service",
             dataProvider = "valid-credentials",
             dataProviderClass = DataProviderForProtonMail.class,
             groups = {"task tests"})
@@ -61,8 +59,7 @@ public class ProtonMailTests {
     /**
      * Test might require user interaction to pass CAPTCHA
      */
-    @Test(enabled = true,
-            description = "Log in with invalid username and password to Proton email service",
+    @Test(description = "Log in with invalid username and password to Proton email service",
             dataProvider = "invalid-credentials",
             dataProviderClass = DataProviderForProtonMail.class,
             groups = {"task tests"})
@@ -79,8 +76,7 @@ public class ProtonMailTests {
         Assert.assertEquals(webDriver.getCurrentUrl(), "https://account.protonmail.com/login");
     }
 
-    @Test(enabled = true,
-            description = "Log in with empty credentials to Proton email service",
+    @Test(description = "Log in with empty credentials to Proton email service",
             dataProvider = "empty-credentials",
             dataProviderClass = DataProviderForProtonMail.class,
             groups = {"task tests"})
