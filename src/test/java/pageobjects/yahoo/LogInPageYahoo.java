@@ -1,7 +1,5 @@
 package pageobjects.yahoo;
 
-import com.epam.utilities.PropertyLoader;
-import com.epam.utilities.WaitWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +8,6 @@ import pageobjects.PageObject;
 public class LogInPageYahoo extends PageObject {
 
     private final WebDriver webDriver;
-    private final WaitWebElement waitWebElement;
 
     @FindBy(css = "input[id='login-username']")
     private WebElement loginInput;
@@ -30,11 +27,6 @@ public class LogInPageYahoo extends PageObject {
     public LogInPageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        int durationForExpectedConditions =
-                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
-        int durationForThreadSleep =
-                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_THREAD_SLEEP"));
-        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions, durationForThreadSleep);
     }
 
     public boolean isLoginInputDisplayed() {

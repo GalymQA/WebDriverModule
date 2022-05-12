@@ -1,7 +1,5 @@
 package pageobjects.yahoo;
 
-import com.epam.utilities.PropertyLoader;
-import com.epam.utilities.WaitWebElement;
 import enums.BooleanStrings;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +9,6 @@ import pageobjects.PageObject;
 public class InboxPageYahoo extends PageObject {
 
     private final WebDriver webDriver;
-    private final WaitWebElement waitWebElement;
 
     @FindBy(css = "a[data-test-id='compose-button']")
     private WebElement composeEmailButton;
@@ -34,11 +31,6 @@ public class InboxPageYahoo extends PageObject {
     public InboxPageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        int durationForExpectedConditions =
-                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
-        int durationForThreadSleep =
-                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_THREAD_SLEEP"));
-        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions, durationForThreadSleep);
     }
 
     public boolean isComposeEmailButtonDisplayed() {

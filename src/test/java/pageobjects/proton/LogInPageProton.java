@@ -1,7 +1,5 @@
 package pageobjects.proton;
 
-import com.epam.utilities.PropertyLoader;
-import com.epam.utilities.WaitWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -10,7 +8,6 @@ import pageobjects.PageObject;
 public class LogInPageProton extends PageObject {
 
     private final WebDriver webDriver;
-    private final WaitWebElement waitWebElement;
 
     @FindBy(css = "input[id='username']")
     private WebElement usernameInput;
@@ -36,11 +33,6 @@ public class LogInPageProton extends PageObject {
     public LogInPageProton(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
-        int durationForExpectedConditions =
-                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_EXPECTED_CONDITIONS"));
-        int durationForThreadSleep =
-                Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_THREAD_SLEEP"));
-        this.waitWebElement = new WaitWebElement(this.webDriver, durationForExpectedConditions, durationForThreadSleep);
     }
 
     public void enterUsername(String username) {
