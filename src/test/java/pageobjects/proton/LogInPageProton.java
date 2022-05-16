@@ -15,8 +15,8 @@ public class LogInPageProton extends PageObject {
     @FindBy(id = "password")
     private WebElement passwordInput;
 
-    @FindBy(id = "staySignedIn")
-    private WebElement staySignedInInput;
+//    @FindBy(id = "staySignedIn")
+//    private WebElement staySignedInInput;
 
     @FindBy(css = "form[name='loginForm'] button[type='submit']")
     private WebElement submitButton;
@@ -45,24 +45,37 @@ public class LogInPageProton extends PageObject {
         passwordInput.sendKeys(password);
     }
 
-    public boolean isStayCheckedInSelected() {
-        return staySignedInInput.isSelected();
-    }
-
     public void submitLoginForm() {
         submitButton.click();
+    }
+
+    public InboxPageProton submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(String username, String password) {
+        enterUsername(username);
+        enterPassword(password);
+        submitLoginForm();
+        return new InboxPageProton(webDriver);
+    }
+
+    public void submitLoginFormWithUsernameAndPassword(String username, String password) {
+        enterUsername(username);
+        enterPassword(password);
+        submitLoginForm();
     }
 
     public boolean isInvalidCredentialsMessageDisplayed() {
         return waitWebElement.waitVisibilityOf(invalidCredentialsMessage);
     }
 
-    public boolean isEmptyUsernameMessageDisplayed() {
+    private boolean isEmptyUsernameMessageDisplayed() {
         return waitWebElement.waitVisibilityOf(emptyUsernameMessage);
     }
 
-    public boolean isEmptyPasswordMessageDisplayed() {
+    private boolean isEmptyPasswordMessageDisplayed() {
         return waitWebElement.waitVisibilityOf(emptyPasswordMessage);
+    }
+
+    public boolean isBothEmptyUsernameAndPasswordMessageDisplayed() {
+        return (isEmptyUsernameMessageDisplayed() & isEmptyPasswordMessageDisplayed());
     }
 
 }

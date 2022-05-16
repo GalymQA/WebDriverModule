@@ -45,7 +45,7 @@ public class InboxPageProton extends PageObject {
         return waitWebElement.waitVisibilityOf(newMessageButton);
     }
 
-    public void sendEmailTo(String emailTo, String emailSubjectText, String emailBodyText) {
+    public InboxPageProton sendEmailTo(String emailTo, String emailSubjectText, String emailBodyText) {
         newMessageButton.click();
         waitWebElement.waitVisibilityOf(emailToAddress);
         emailToAddress.sendKeys(emailTo);
@@ -55,6 +55,7 @@ public class InboxPageProton extends PageObject {
         editorForEmailBody.sendKeys(emailBodyText);
         webDriver.switchTo().defaultContent();
         sendEmailButton.click();
+        return this;
     }
 
     public boolean isSentEmailMessageDisplayed() {
