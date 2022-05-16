@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import pageobjects.PageObject;
 
-public class LogInPageProton extends PageObject {
+public class LoginPageProton extends PageObject {
 
     private final WebDriver webDriver;
 
@@ -15,8 +15,8 @@ public class LogInPageProton extends PageObject {
     @FindBy(id = "password")
     private WebElement passwordInput;
 
-//    @FindBy(id = "staySignedIn")
-//    private WebElement staySignedInInput;
+    @FindBy(css = "form[name='loginForm']")
+    private WebElement loginForm;
 
     @FindBy(css = "form[name='loginForm'] button[type='submit']")
     private WebElement submitButton;
@@ -30,36 +30,26 @@ public class LogInPageProton extends PageObject {
     @FindBy(xpath = "//label[@for='password'] //span[contains(text(), 'This field is required')]")
     private WebElement emptyPasswordMessage;
 
-    public LogInPageProton(WebDriver webDriver) {
+    public LoginPageProton(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
     }
 
-    public void enterUsername(String username) {
+    public InboxPageProton submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(String username, String password) {
         usernameInput.clear();
         usernameInput.sendKeys(username);
-    }
-
-    public void enterPassword(String password) {
         passwordInput.clear();
         passwordInput.sendKeys(password);
-    }
-
-    public void submitLoginForm() {
         submitButton.click();
-    }
-
-    public InboxPageProton submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(String username, String password) {
-        enterUsername(username);
-        enterPassword(password);
-        submitLoginForm();
         return new InboxPageProton(webDriver);
     }
 
     public void submitLoginFormWithUsernameAndPassword(String username, String password) {
-        enterUsername(username);
-        enterPassword(password);
-        submitLoginForm();
+        usernameInput.clear();
+        usernameInput.sendKeys(username);
+        passwordInput.clear();
+        passwordInput.sendKeys(password);
+        submitButton.click();
     }
 
     public boolean isInvalidCredentialsMessageDisplayed() {
@@ -76,6 +66,14 @@ public class LogInPageProton extends PageObject {
 
     public boolean isBothEmptyUsernameAndPasswordMessageDisplayed() {
         return (isEmptyUsernameMessageDisplayed() & isEmptyPasswordMessageDisplayed());
+    }
+
+    public void waitLoginFormDisplayed() {
+        waitWebElement.waitVisibilityOf(loginForm);
+    }
+
+    public void waitFixedAmountOfTimeAfterEmailHasBeenSent() throws InterruptedException {
+        waitWebElement.waitFixedAmountOfTime();
     }
 
 }

@@ -1,13 +1,12 @@
 package com.epam.webdriver;
 
 import com.epam.utilities.PropertyLoader;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pageobjects.proton.InboxPageProton;
-import pageobjects.proton.LogInPageProton;
+import pageobjects.proton.LoginPageProton;
 
 import java.time.Duration;
 
@@ -26,17 +25,6 @@ public class LoginPageProtonMailTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @Test(description = "Health test for the login page of Proton Mail",
-            priority = 0,
-            groups = {"health tests"})
-    public void healthCheckOfLoginPage() {
-        webDriver.get("https://account.protonmail.com/login");
-        Assert.assertEquals(webDriver.getTitle(), "Proton Account");
-    }
-
-    /**
-     * Test might require user interaction to pass CAPTCHA
-     */
     @DataProvider(name = "valid-credentials")
     public static Object[][] provideValidCredentials() {
         return new Object[][]{
@@ -44,23 +32,28 @@ public class LoginPageProtonMailTests {
         };
     }
 
-    @Test(description = "Log in with both valid username/password to Proton Mail",
-            priority = 1,
-            dependsOnMethods = "healthCheckOfLoginPage",
-            dataProvider = "valid-credentials",
-            groups = {"task tests"})
-    public void validLogIn(String username, String password) {
-        webDriver.get("https://account.protonmail.com/login");
-        LogInPageProton loginPage = new LogInPageProton(webDriver);
-        InboxPageProton inboxPage = loginPage.submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(
-                username,
-                password);
-        Assert.assertTrue(inboxPage.isNewMessageButtonDisplayed());
-    }
-
     /**
      * Test might require user interaction to pass CAPTCHA
      */
+    @Test(description = "Log in with both valid username/password to Proton Mail",
+            priority = 1,
+            dataProvider = "valid-credentials")
+    public void validLogIn(String username, String password) {
+        webDriver.get("https://account.protonmail.com/login");
+        LoginPageProton loginPage = new LoginPageProton(webDriver);
+        InboxPageProton inboxPage = loginPage.submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(
+                username,
+                password);
+        boolean statusNewMessageButtonDisplayed = inboxPage.isNewMessageButtonDisplayed();
+        signOutFromProtonMailAndWait(inboxPage);
+        Assert.assertTrue(statusNewMessageButtonDisplayed);
+    }
+
+    private void signOutFromProtonMailAndWait(InboxPageProton inboxPage) {
+        LoginPageProton loginPageProton = inboxPage.signOut();
+        loginPageProton.waitLoginFormDisplayed();
+    }
+
     @DataProvider(name = "invalid-credentials")
     public static Object[][] provideInvalidCredentials() {
         return new Object[][]{
@@ -70,14 +63,15 @@ public class LoginPageProtonMailTests {
         };
     }
 
+    /**
+     * Test might require user interaction to pass CAPTCHA
+     */
     @Test(description = "Log in with invalid username and/or password to Proton Mail",
             priority = 2,
-            dependsOnMethods = "healthCheckOfLoginPage",
-            dataProvider = "invalid-credentials",
-            groups = {"task tests"})
-    public void invalidLogInWithInvalidCredentials(String username, String password) throws InterruptedException {
+            dataProvider = "invalid-credentials")
+    public void invalidLogInWithInvalidCredentials(String username, String password) {
         webDriver.get("https://account.protonmail.com/login");
-        LogInPageProton loginPage = new LogInPageProton(webDriver);
+        LoginPageProton loginPage = new LoginPageProton(webDriver);
         loginPage.submitLoginFormWithUsernameAndPassword(username, password);
         Assert.assertTrue(loginPage.isInvalidCredentialsMessageDisplayed());
     }
@@ -91,13 +85,10 @@ public class LoginPageProtonMailTests {
 
     @Test(description = "Log in with both empty username and password to Proton Mail",
             priority = 3,
-            dependsOnMethods = "healthCheckOfLoginPage",
-            dataProvider = "empty-credentials",
-            groups = {"task tests"})
+            dataProvider = "empty-credentials")
     public void invalidLoginWithEmptyCredentials(String username, String password) {
-        webDriver.manage().deleteAllCookies();
         webDriver.get("https://account.protonmail.com/login");
-        LogInPageProton loginPage = new LogInPageProton(webDriver);
+        LoginPageProton loginPage = new LoginPageProton(webDriver);
         loginPage.submitLoginFormWithUsernameAndPassword(username, password);
         Assert.assertTrue(loginPage.isBothEmptyUsernameAndPasswordMessageDisplayed());
     }

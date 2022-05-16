@@ -62,16 +62,10 @@ public class InboxPageProton extends PageObject {
         return waitWebElement.waitVisibilityOf(emailSentMessage);
     }
 
-    public void clickHeadingDropDownButton() {
+    public LoginPageProton signOut() {
         headingDropDownButton.click();
-    }
-
-    public void clickSignOutButton() {
         signOutButton.click();
-    }
-
-    public void waitFixedAmountOfTimeAfterEmailHasBeenSent() throws InterruptedException {
-        waitWebElement.waitFixedAmountOfTime();
+        return new LoginPageProton(webDriver);
     }
 
 }

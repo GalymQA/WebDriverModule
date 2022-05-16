@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import pageobjects.PageObject;
 
-public class LogInPageYahoo extends PageObject {
+public class LoginPageYahoo extends PageObject {
 
     private final WebDriver webDriver;
 
@@ -24,42 +24,18 @@ public class LogInPageYahoo extends PageObject {
     @FindBy(css = "a[id='ybarMailLink']")
     private WebElement mailLink;
 
-    public LogInPageYahoo(WebDriver webDriver) {
+    public LoginPageYahoo(WebDriver webDriver) {
         super(webDriver);
         this.webDriver = webDriver;
     }
 
-    public boolean isLoginInputDisplayed() {
-        return waitWebElement.waitVisibilityOf(loginInput);
-    }
-
-    public void enterUsername(String username) {
+    public InboxPageYahoo submitLoginFormAndReturnInboxPage(String username, String password) {
         loginInput.clear();
         loginInput.sendKeys(username);
-    }
-
-    public void clickSubmitLoginButton() {
         submitLoginButton.click();
-    }
-
-    public boolean isPasswordInputDisplayed() {
-        return waitWebElement.waitVisibilityOf(passwordInput);
-    }
-
-    public void enterPassword(String password) {
         passwordInput.clear();
         passwordInput.sendKeys(password);
-    }
-
-    public void clickSubmitPasswordButton() {
         submitPasswordButton.click();
-    }
-
-    public boolean isMailLinkDisplayed() {
-        return waitWebElement.waitVisibilityOf(mailLink);
-    }
-
-    public InboxPageYahoo clickMailLinkAndReturnNewInboxPage(WebDriver webDriver) {
         mailLink.click();
         return new InboxPageYahoo(webDriver);
     }

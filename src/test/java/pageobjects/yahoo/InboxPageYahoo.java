@@ -33,43 +33,28 @@ public class InboxPageYahoo extends PageObject {
         this.webDriver = webDriver;
     }
 
-    public boolean isComposeEmailButtonDisplayed() {
-        return waitWebElement.waitVisibilityOf(composeEmailButton);
-    }
-
-    public boolean isInboxFieldDisplayed() {
-        return waitWebElement.waitVisibilityOf(inboxField);
-    }
-
-    public void clickInboxField() {
-        inboxField.click();
-    }
-
-    public boolean isLatestEmailInInboxDisplayed() {
-        return waitWebElement.waitVisibilityOf(latestEmailInInbox);
-    }
-
     public boolean verifyUnreadStatusOfLatestEmail() {
+        waitWebElement.waitVisibilityOf(linkToLatestEmailInInbox);
         return BooleanStrings.FALSE.toString().equals(linkToLatestEmailInInbox.getAttribute("data-test-read"));
     }
 
     public boolean verifySenderOfLatestEmailInInbox(String senderOfEmail) {
+        waitWebElement.waitVisibilityOf(latestEmailInInbox);
         return senderOfEmail.equals(latestEmailInInbox.getAttribute("title"));
     }
 
     public boolean verifyMessageSubjectOfLatestEmailInInbox(String messageSubject) {
+        waitWebElement.waitVisibilityOf(messageSubjectOfLatestEmailInInbox);
         return messageSubject.equals(messageSubjectOfLatestEmailInInbox.getText());
     }
 
-    public void clickOnLinkToLatestEmailInInbox() {
+    public InboxPageYahoo clickOnLinkToLatestEmailInInbox() {
         linkToLatestEmailInInbox.click();
-    }
-
-    public boolean isBodyOfLatestEmailDisplayed() {
-        return waitWebElement.waitVisibilityOf(bodyOfLatestEmail);
+        return this;
     }
 
     public boolean verifyBodyOfLatestEmail(String messageBody) {
+        waitWebElement.waitVisibilityOf(bodyOfLatestEmail);
         return messageBody.equals(bodyOfLatestEmail.getText());
     }
 

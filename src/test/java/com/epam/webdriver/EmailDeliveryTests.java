@@ -1,18 +1,13 @@
 package com.epam.webdriver;
 
-import com.epam.dataproviders.DataProviderForEmailDelivery;
 import com.epam.utilities.PropertyLoader;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-import pageobjects.proton.HomePageProton;
-import pageobjects.proton.LogInPageProton;
+import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
+import pageobjects.proton.LoginPageProton;
 import pageobjects.proton.InboxPageProton;
-import pageobjects.yahoo.HomePageYahoo;
-import pageobjects.yahoo.LogInPageYahoo;
+import pageobjects.yahoo.LoginPageYahoo;
 import pageobjects.yahoo.InboxPageYahoo;
 
 import java.time.Duration;
@@ -21,7 +16,7 @@ public class EmailDeliveryTests {
 
     private WebDriver webDriver;
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass()
     public void setUp() {
         String webDriverName = PropertyLoader.getProperty("WEB_DRIVER_NAME");
         String locationOfWebDriver = PropertyLoader.getProperty("LOCATION_OF_WEB_DRIVER");
@@ -32,12 +27,16 @@ public class EmailDeliveryTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @Test(description = "Health test for yahoo mail",
-            groups = {"health tests"})
-    public void verifyTitleOfYahooMail() {
-        webDriver.get("https://www.yahoo.com/");
-        Assert.assertEquals(webDriver.getTitle(),
-                "Yahoo | Mail, Weather, Search, Politics, News, Finance, Sports & Videos");
+    @DataProvider(name = "valid-credentials")
+    public static Object[][] provideValidCredentials() {
+        return new Object[][]{
+                {"qapersonstudent1@protonmail.com",
+                        "epam930542!#$%^",
+                        "Printer in office #842 is out of work",
+                        "Hi, Viktor. The printer in office #842 is not working properly. Could you please fix it.",
+                        "ViktorPotapov7575@yahoo.com",
+                        "epam34534f#%$"}
+        };
     }
 
     /**
@@ -46,54 +45,65 @@ public class EmailDeliveryTests {
      * so that the email is delivered to Yahoo Mail
      */
     @Test(description = "Verify delivery of email from ProtonMail to YahooMail",
-            dataProvider = "valid-credentials-for-email-delivery",
-            dataProviderClass = DataProviderForEmailDelivery.class,
-            groups = {"task tests"})
-    public void verifyDeliveryOfEmail(String usernameProton,
-                                      String passwordProton,
-                                      String usernameYahoo,
-                                      String passwordYahoo,
-                                      String emailSubjectText,
-                                      String emailBodyText) throws InterruptedException {
-        webDriver.get("https://protonmail.com/");
-        HomePageProton homePageProton = new HomePageProton(webDriver);
-        Assert.assertTrue(homePageProton.isLoginButtonDisplayed());
-        LogInPageProton logInPageProton = homePageProton.clickLoginButtonAndReturnNewLoginPage(webDriver);
-        logInPageProton.enterUsername(usernameProton);
-        logInPageProton.enterPassword(passwordProton);
-        logInPageProton.submitLoginForm();
-        InboxPageProton inboxPageProton = new InboxPageProton(webDriver);
-        Assert.assertTrue(inboxPageProton.isNewMessageButtonDisplayed());
-        inboxPageProton.sendEmailTo(usernameYahoo, emailSubjectText, emailBodyText);
-        Assert.assertTrue(inboxPageProton.isSentEmailMessageDisplayed());
-        inboxPageProton.clickHeadingDropDownButton();
-        inboxPageProton.clickSignOutButton();
-        inboxPageProton.waitFixedAmountOfTimeAfterEmailHasBeenSent();
-        webDriver.get("https://yahoo.com/");
-        HomePageYahoo homePageYahoo = new HomePageYahoo(webDriver);
-        Assert.assertTrue(homePageYahoo.isSignInButtonDisplayed());
-        LogInPageYahoo logInPageYahoo = homePageYahoo.clickSignInButtonAndReturnNewLoginPage(webDriver);
-        Assert.assertTrue(logInPageYahoo.isLoginInputDisplayed());
-        logInPageYahoo.enterUsername(usernameYahoo);
-        logInPageYahoo.clickSubmitLoginButton();
-        Assert.assertTrue(logInPageYahoo.isPasswordInputDisplayed());
-        logInPageYahoo.enterPassword(passwordYahoo);
-        logInPageYahoo.clickSubmitPasswordButton();
-        Assert.assertTrue(logInPageYahoo.isMailLinkDisplayed());
-        InboxPageYahoo inboxPageYahoo = logInPageYahoo.clickMailLinkAndReturnNewInboxPage(webDriver);
-        Assert.assertTrue(inboxPageYahoo.isComposeEmailButtonDisplayed());
-        Assert.assertTrue(inboxPageYahoo.isInboxFieldDisplayed());
-        inboxPageYahoo.clickInboxField();
-        Assert.assertTrue(inboxPageYahoo.isLatestEmailInInboxDisplayed());
-        Assert.assertTrue(inboxPageYahoo.verifyUnreadStatusOfLatestEmail());
-        Assert.assertTrue(inboxPageYahoo.verifySenderOfLatestEmailInInbox(usernameProton));
-        Assert.assertTrue(inboxPageYahoo.verifyMessageSubjectOfLatestEmailInInbox(emailSubjectText));
-        inboxPageYahoo.clickOnLinkToLatestEmailInInbox();
-        Assert.assertTrue(inboxPageYahoo.isBodyOfLatestEmailDisplayed());
-        Assert.assertTrue(inboxPageYahoo.verifyBodyOfLatestEmail(emailBodyText));
+            dataProvider = "valid-credentials")
+    public void verifyDeliveryOfEmailFromProtonToYahoo(String usernameProton,
+                                                       String passwordProton,
+                                                       String emailSubjectText,
+                                                       String emailBodyText,
+                                                       String usernameYahoo,
+                                                       String passwordYahoo) throws InterruptedException {
+        SoftAssert softAssert = new SoftAssert();
+        webDriver.get("https://account.protonmail.com/login");
+        boolean sentEmailStatus = getStatusOfSentEmailFromProtonToYahooAndWait(usernameProton,
+                passwordProton,
+                emailSubjectText,
+                emailBodyText,
+                usernameYahoo);
+        softAssert.assertTrue(sentEmailStatus);
+        webDriver.get("https://login.yahoo.com/");
+        boolean statusOfDeliveredEmail = getStatusOfDeliveredEmailAtYahoo(usernameYahoo,
+                passwordYahoo,
+                usernameProton,
+                emailSubjectText,
+                emailBodyText);
+        softAssert.assertTrue(statusOfDeliveredEmail);
+        softAssert.assertAll();
     }
 
-    @AfterMethod(alwaysRun = true)
+    private boolean getStatusOfSentEmailFromProtonToYahooAndWait(String usernameProton,
+                                                                 String passwordProton,
+                                                                 String emailSubjectText,
+                                                                 String emailBodyText,
+                                                                 String usernameYahoo) throws InterruptedException {
+        LoginPageProton logInPageProton = new LoginPageProton(webDriver);
+        InboxPageProton inboxPageProton = logInPageProton.submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(
+                usernameProton,
+                passwordProton);
+        inboxPageProton = inboxPageProton.sendEmailTo(usernameYahoo, emailSubjectText, emailBodyText);
+        boolean sentEmailStatus = inboxPageProton.isSentEmailMessageDisplayed();
+        logInPageProton = inboxPageProton.signOut();
+        logInPageProton.waitFixedAmountOfTimeAfterEmailHasBeenSent();
+        return sentEmailStatus;
+    }
+
+    private boolean getStatusOfDeliveredEmailAtYahoo(String usernameYahoo,
+                                                     String passwordYahoo,
+                                                     String usernameProton,
+                                                     String emailSubjectText,
+                                                     String emailBodyText) {
+        LoginPageYahoo loginPageYahoo = new LoginPageYahoo(webDriver);
+        InboxPageYahoo inboxPageYahoo = loginPageYahoo.submitLoginFormAndReturnInboxPage(
+                usernameYahoo,
+                passwordYahoo);
+        boolean unreadStatus = inboxPageYahoo.verifyUnreadStatusOfLatestEmail();
+        boolean senderStatus = inboxPageYahoo.verifySenderOfLatestEmailInInbox(usernameProton);
+        boolean emailSubjectStatus = inboxPageYahoo.verifyMessageSubjectOfLatestEmailInInbox(emailSubjectText);
+        inboxPageYahoo = inboxPageYahoo.clickOnLinkToLatestEmailInInbox();
+        boolean emailBodyStatus = inboxPageYahoo.verifyBodyOfLatestEmail(emailBodyText);
+        return (unreadStatus & senderStatus & emailSubjectStatus & emailBodyStatus);
+    }
+
+    @AfterClass()
     public void teardown() {
         if (webDriver != null) {
             webDriver.quit();
