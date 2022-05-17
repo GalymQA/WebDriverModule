@@ -14,8 +14,8 @@ public class LoginPageProtonMailTests {
 
     private WebDriver webDriver;
 
-    @BeforeClass()
-    public void setUp() {
+    @BeforeClass(description = "Get properties and set-up a web driver")
+    public void getPropertiesAndSetUpWebDriver() {
         String webDriverName = PropertyLoader.getProperty("WEB_DRIVER_NAME");
         String locationOfWebDriver = PropertyLoader.getProperty("LOCATION_OF_WEB_DRIVER");
         int durationForImplicitWait = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_IMPLICIT_WAIT"));
@@ -25,28 +25,21 @@ public class LoginPageProtonMailTests {
         webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(durationForImplicitWait));
     }
 
-    @DataProvider(name = "valid-credentials")
-    public static Object[][] provideValidCredentials() {
-        return new Object[][]{
-                {"qapersonstudent1@protonmail.com", "epam930542!#$%^"}
-        };
-    }
-
     /**
      * Test might require user interaction to pass CAPTCHA
      */
     @Test(description = "Log in with both valid username/password to Proton Mail",
-            priority = 1,
-            dataProvider = "valid-credentials")
-    public void validLogIn(String username, String password) {
+            priority = 1)
+    public void validLogIn() {
         webDriver.get("https://account.protonmail.com/login");
         LoginPageProton loginPage = new LoginPageProton(webDriver);
-        InboxPageProton inboxPage = loginPage.submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(
-                username,
-                password);
+        InboxPageProton inboxPage = loginPage.submitValidLoginForm(
+                "qapersonstudent1@protonmail.com",
+                "epam930542!#$%^");
         boolean statusNewMessageButtonDisplayed = inboxPage.isNewMessageButtonDisplayed();
         signOutFromProtonMailAndWait(inboxPage);
-        Assert.assertTrue(statusNewMessageButtonDisplayed);
+        Assert.assertTrue(statusNewMessageButtonDisplayed,
+                "Log in failed with both valid username and valid password");
     }
 
     private void signOutFromProtonMailAndWait(InboxPageProton inboxPage) {
@@ -72,29 +65,23 @@ public class LoginPageProtonMailTests {
     public void invalidLogInWithInvalidCredentials(String username, String password) {
         webDriver.get("https://account.protonmail.com/login");
         LoginPageProton loginPage = new LoginPageProton(webDriver);
-        loginPage.submitLoginFormWithUsernameAndPassword(username, password);
-        Assert.assertTrue(loginPage.isInvalidCredentialsMessageDisplayed());
-    }
-
-    @DataProvider(name = "empty-credentials")
-    public static Object[][] provideEmptyCredentials() {
-        return new Object[][]{
-                {"", ""}
-        };
+        loginPage = loginPage.submitInvalidLoginForm(username, password);
+        Assert.assertTrue(loginPage.isInvalidCredentialsMessageDisplayed(),
+                "Message for log in with an invalid username/password has not been displayed");
     }
 
     @Test(description = "Log in with both empty username and password to Proton Mail",
-            priority = 3,
-            dataProvider = "empty-credentials")
-    public void invalidLoginWithEmptyCredentials(String username, String password) {
+            priority = 3)
+    public void invalidLoginWithEmptyCredentials() {
         webDriver.get("https://account.protonmail.com/login");
         LoginPageProton loginPage = new LoginPageProton(webDriver);
-        loginPage.submitLoginFormWithUsernameAndPassword(username, password);
-        Assert.assertTrue(loginPage.isBothEmptyUsernameAndPasswordMessageDisplayed());
+        loginPage = loginPage.submitInvalidLoginForm("", "");
+        Assert.assertTrue(loginPage.isBothEmptyUsernameAndPasswordMessageDisplayed(),
+                "Message for log in with both empty username and empty password has not been displayed");
     }
 
-    @AfterClass()
-    public void teardown() {
+    @AfterClass(description = "Quit the web driver")
+    public void quitWebDriver() {
         if (webDriver != null) {
             webDriver.quit();
         }

@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import pageobjects.PageObject;
+import pageobjects.yahoo.LoginPageYahoo;
 
 public class LoginPageProton extends PageObject {
 
@@ -35,7 +36,7 @@ public class LoginPageProton extends PageObject {
         this.webDriver = webDriver;
     }
 
-    public InboxPageProton submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(String username, String password) {
+    public InboxPageProton submitValidLoginForm(String username, String password) {
         usernameInput.clear();
         usernameInput.sendKeys(username);
         passwordInput.clear();
@@ -44,16 +45,31 @@ public class LoginPageProton extends PageObject {
         return new InboxPageProton(webDriver);
     }
 
-    public void submitLoginFormWithUsernameAndPassword(String username, String password) {
+    public LoginPageProton submitInvalidLoginForm(String username, String password) {
         usernameInput.clear();
         usernameInput.sendKeys(username);
         passwordInput.clear();
         passwordInput.sendKeys(password);
         submitButton.click();
+        return this;
     }
 
     public boolean isInvalidCredentialsMessageDisplayed() {
         return waitWebElement.waitVisibilityOf(invalidCredentialsMessage);
+    }
+
+    public boolean isBothEmptyUsernameAndPasswordMessageDisplayed() {
+        return (isEmptyUsernameMessageDisplayed() && isEmptyPasswordMessageDisplayed());
+    }
+
+    public LoginPageProton waitLoginFormDisplayed() {
+        waitWebElement.waitVisibilityOf(loginForm);
+        return this;
+    }
+
+    public LoginPageProton waitFixedAmountOfTimeAfterEmailHasBeenSent() throws InterruptedException {
+        waitWebElement.waitFixedAmountOfTime();
+        return this;
     }
 
     private boolean isEmptyUsernameMessageDisplayed() {
@@ -62,18 +78,6 @@ public class LoginPageProton extends PageObject {
 
     private boolean isEmptyPasswordMessageDisplayed() {
         return waitWebElement.waitVisibilityOf(emptyPasswordMessage);
-    }
-
-    public boolean isBothEmptyUsernameAndPasswordMessageDisplayed() {
-        return (isEmptyUsernameMessageDisplayed() & isEmptyPasswordMessageDisplayed());
-    }
-
-    public void waitLoginFormDisplayed() {
-        waitWebElement.waitVisibilityOf(loginForm);
-    }
-
-    public void waitFixedAmountOfTimeAfterEmailHasBeenSent() throws InterruptedException {
-        waitWebElement.waitFixedAmountOfTime();
     }
 
 }

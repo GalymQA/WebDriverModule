@@ -16,8 +16,8 @@ public class EmailDeliveryTests {
 
     private WebDriver webDriver;
 
-    @BeforeClass()
-    public void setUp() {
+    @BeforeClass(description = "Get properties and set-up a web driver")
+    public void getPropertiesAndSetUpWebDriver() {
         String webDriverName = PropertyLoader.getProperty("WEB_DRIVER_NAME");
         String locationOfWebDriver = PropertyLoader.getProperty("LOCATION_OF_WEB_DRIVER");
         int durationForImplicitWait = Integer.parseInt(PropertyLoader.getProperty("DURATION_FOR_IMPLICIT_WAIT"));
@@ -52,21 +52,22 @@ public class EmailDeliveryTests {
                                                        String emailBodyText,
                                                        String usernameYahoo,
                                                        String passwordYahoo) throws InterruptedException {
-        SoftAssert softAssert = new SoftAssert();
         webDriver.get("https://account.protonmail.com/login");
         boolean sentEmailStatus = getStatusOfSentEmailFromProtonToYahooAndWait(usernameProton,
                 passwordProton,
                 emailSubjectText,
                 emailBodyText,
                 usernameYahoo);
-        softAssert.assertTrue(sentEmailStatus);
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertTrue(sentEmailStatus, "Email has not been sent from Proton Mail");
         webDriver.get("https://login.yahoo.com/");
         boolean statusOfDeliveredEmail = getStatusOfDeliveredEmailAtYahoo(usernameYahoo,
                 passwordYahoo,
                 usernameProton,
                 emailSubjectText,
                 emailBodyText);
-        softAssert.assertTrue(statusOfDeliveredEmail);
+        softAssert.assertTrue(statusOfDeliveredEmail,
+                "The delivered email to Yahoo Mail has not passed all checks");
         softAssert.assertAll();
     }
 
@@ -76,9 +77,7 @@ public class EmailDeliveryTests {
                                                                  String emailBodyText,
                                                                  String usernameYahoo) throws InterruptedException {
         LoginPageProton logInPageProton = new LoginPageProton(webDriver);
-        InboxPageProton inboxPageProton = logInPageProton.submitLoginFormWithUsernameAndPasswordAndReturnInboxPage(
-                usernameProton,
-                passwordProton);
+        InboxPageProton inboxPageProton = logInPageProton.submitValidLoginForm(usernameProton, passwordProton);
         inboxPageProton = inboxPageProton.sendEmailTo(usernameYahoo, emailSubjectText, emailBodyText);
         boolean sentEmailStatus = inboxPageProton.isSentEmailMessageDisplayed();
         logInPageProton = inboxPageProton.signOut();
@@ -92,19 +91,17 @@ public class EmailDeliveryTests {
                                                      String emailSubjectText,
                                                      String emailBodyText) {
         LoginPageYahoo loginPageYahoo = new LoginPageYahoo(webDriver);
-        InboxPageYahoo inboxPageYahoo = loginPageYahoo.submitLoginFormAndReturnInboxPage(
-                usernameYahoo,
-                passwordYahoo);
+        InboxPageYahoo inboxPageYahoo = loginPageYahoo.submitValidLoginForm(usernameYahoo, passwordYahoo);
         boolean unreadStatus = inboxPageYahoo.verifyUnreadStatusOfLatestEmail();
         boolean senderStatus = inboxPageYahoo.verifySenderOfLatestEmailInInbox(usernameProton);
         boolean emailSubjectStatus = inboxPageYahoo.verifyMessageSubjectOfLatestEmailInInbox(emailSubjectText);
         inboxPageYahoo = inboxPageYahoo.clickOnLinkToLatestEmailInInbox();
         boolean emailBodyStatus = inboxPageYahoo.verifyBodyOfLatestEmail(emailBodyText);
-        return (unreadStatus & senderStatus & emailSubjectStatus & emailBodyStatus);
+        return (unreadStatus && senderStatus && emailSubjectStatus && emailBodyStatus);
     }
 
-    @AfterClass()
-    public void teardown() {
+    @AfterClass(description = "Quit the web driver")
+    public void quitWebDriver() {
         if (webDriver != null) {
             webDriver.quit();
         }

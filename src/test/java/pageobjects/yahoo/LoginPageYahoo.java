@@ -29,7 +29,7 @@ public class LoginPageYahoo extends PageObject {
         this.webDriver = webDriver;
     }
 
-    public InboxPageYahoo submitLoginFormAndReturnInboxPage(String username, String password) {
+    public InboxPageYahoo submitValidLoginForm(String username, String password) {
         loginInput.clear();
         loginInput.sendKeys(username);
         submitLoginButton.click();
