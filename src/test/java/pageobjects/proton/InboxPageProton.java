@@ -30,7 +30,7 @@ public class InboxPageProton extends PageObject {
     @FindBy(xpath = "//div[contains(@class, 'notifications-container')] //span[contains(text(), 'Message sent')]")
     private WebElement emailSentMessage;
 
-    @FindBy(css = "button[data-testid='heading:userdropdown'] span[class='block text-ellipsis user-dropdown-displayName']")
+    @FindBy(css = "button[data-testid='heading:userdropdown']")
     private WebElement headingDropDownButton;
 
     @FindBy(css = "button[data-testid='userdropdown:button:logout']")
@@ -64,6 +64,7 @@ public class InboxPageProton extends PageObject {
 
     public LoginPageProton signOut() {
         headingDropDownButton.click();
+        waitWebElement.waitVisibilityOf(signOutButton);
         signOutButton.click();
         return new LoginPageProton(webDriver);
     }

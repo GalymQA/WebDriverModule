@@ -28,8 +28,7 @@ public class LoginPageProtonMailTests {
     /**
      * Test might require user interaction to pass CAPTCHA
      */
-    @Test(description = "Log in with both valid username/password to Proton Mail",
-            priority = 1)
+    @Test(description = "Log in with both valid username/password to Proton Mail")
     public void validLogIn() {
         webDriver.get("https://account.protonmail.com/login");
         LoginPageProton loginPage = new LoginPageProton(webDriver);
@@ -60,7 +59,6 @@ public class LoginPageProtonMailTests {
      * Test might require user interaction to pass CAPTCHA
      */
     @Test(description = "Log in with invalid username and/or password to Proton Mail",
-            priority = 2,
             dataProvider = "invalid-credentials")
     public void invalidLogInWithInvalidCredentials(String username, String password) {
         webDriver.get("https://account.protonmail.com/login");
@@ -70,8 +68,7 @@ public class LoginPageProtonMailTests {
                 "Message for log in with an invalid username/password has not been displayed");
     }
 
-    @Test(description = "Log in with both empty username and password to Proton Mail",
-            priority = 3)
+    @Test(description = "Log in with both empty username and password to Proton Mail")
     public void invalidLoginWithEmptyCredentials() {
         webDriver.get("https://account.protonmail.com/login");
         LoginPageProton loginPage = new LoginPageProton(webDriver);
